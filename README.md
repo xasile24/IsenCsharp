@@ -34,3 +34,22 @@ Ajouter le projet Library comme référence du projet ConsoleApp.
 
 # C#
 Supprimer la classe autogénérée (ClassC1)
+
+
+.
+.
+.
+
+
+
+
+# Ajouter un projet de tests unitaires
+* A la racine de la solution, créer un dossier 'tests' et un sous-dossier `Isen.DotNet.Library.Tests`
+* Naviguer vers ce dossier
+* `dotnet new xunit`
+* Ajouter ce projet au sln, Depuis la racine: `dotnet sln add tests/Isen.DotNet.Library/Tests`
+* Revenir dans le dossier de projet tests
+* Referencier le projet Library dans le projet de test : `dotnet add reference ../../Isen.DotNet.Library`
+* Renommer la classe générée automatiquement dans le projet de test et l'appeler 'MyCollectionTests'
+* Coder un test de la méthode Add
+* 
