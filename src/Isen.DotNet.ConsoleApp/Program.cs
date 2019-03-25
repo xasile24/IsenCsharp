@@ -1,6 +1,7 @@
 ﻿using System;
 using Isen.DotNet.Library;
 using Isen.DotNet.Library.Lists;
+using Isen.DotNet.Library.Persons;
 
 namespace Isen.DotNet.ConsoleApp
 {
@@ -8,18 +9,25 @@ namespace Isen.DotNet.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var hello = new Hello("Alexis");
-            var message = hello.Greet();
-            Console.WriteLine(message);
+            var jd = new Person(
+                "Jhon",
+                "Doe",
+                new DateTime(1964, 12, 4)
+            );
+            var unborn = new Person(
+                "The",
+                "Unborn"
+            );
+            Console.WriteLine(jd);
+            Console.WriteLine(unborn);
 
-            var list = new MyCollection<string>();
-            list.Add("A");
-            list.Add("B");
-            list.Add("C");
-            var enumerator = 
-                list.GetEnumerator();
-            while (enumerator.MoveNext())
-                Console.WriteLine(enumerator.Current);
+            var inlineperson = new Person()
+            {
+                FirstName = "Jon",
+                LastName = "Appleseed",
+                DateOfBirth = new DateTime(1965, 10, 5)
+            };
+            Console.WriteLine(inlineperson);
         }
     }
 }
