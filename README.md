@@ -31,7 +31,7 @@ Depuis la racine : `dotnet sln add src/Isen.DotNet.Library`
 Ajouter le projet Library comme référence du projet ConsoleApp.
 * Naviguer dans le dossei du projet console
 * `dotnet add reference ../Isen.DotNet.Library` 
-
+ 
 # C#
 Supprimer la classe autogénérée (ClassC1)
 
@@ -49,7 +49,16 @@ Supprimer la classe autogénérée (ClassC1)
 * `dotnet new xunit`
 * Ajouter ce projet au sln, Depuis la racine: `dotnet sln add tests/Isen.DotNet.Library/Tests`
 * Revenir dans le dossier de projet tests
-* Referencier le projet Library dans le projet de test : `dotnet add reference ../../Isen.DotNet.Library`
+* Referencier le projet Library dans le projet de test : `dotnet add reference ../../src/Isen.DotNet.Library`
 * Renommer la classe générée automatiquement dans le projet de test et l'appeler 'MyCollectionTests'
 * Coder un test de la méthode Add
-* 
+* Executer `dotnet test`
+* Coder les accesseurs indexeurs
+* Coder méthodes 
+
+#Après-midi
+* On veut une classe générique à la place d'une classe capable de gérer seulement le type string
+--- On rajoute donc <T> après la classe, quand on l'a définie et quand on l'appelle dans le test on note : `new Mycollection<string>()`
+--- On remplace tout les string de la classe par T
+* On renomme le fichier de Test pour préciser qu'il s'applique que au MyCollection<string> : `MyCollectionStringTest`
+* Dupliquer `MyCollectionStringTest` en `MyCollectionCharTest` et adapter le code en conséquence

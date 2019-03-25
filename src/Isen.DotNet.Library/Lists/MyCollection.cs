@@ -2,21 +2,23 @@ using System;
 
 namespace Isen.DotNet.Library.Lists
 {
-    public class MyCollection
+    public class MyCollection<T>
     {
-        private string[] _values;
+        private T[] _values;
 
         public MyCollection()
         {
-            _values = new string[0];
+            _values = new T[0];
         }
+
+        
         /// <summary>
         ///Taille de la liste
         ///</summary>
         public int Count => _values.Length;
-        public string[] Values => _values;
+        public T[] Values => _values;
 
-        public string this[int index]
+        public T this[int index]
         {
             get { return _values[index]; }
             set { _values[index] = value; }
@@ -27,10 +29,10 @@ namespace Isen.DotNet.Library.Lists
         ///Ajoute un élément à la fin de la liste
         ///</summary>
         ///<param name="item"></param>
-        public void Add(string item)
+        public void Add(T item)
         {
             //Nouveau tableau
-            var temp = new string[Count + 1];
+            var temp = new T[Count + 1];
             //Copier les elements du tableau initial
             for(var i = 0; i< Count; i++)
             {
@@ -44,14 +46,13 @@ namespace Isen.DotNet.Library.Lists
 
         public void RemoveAt(int index)
         {
-            if( Values == null 
-            || Values.Length == 0 
+            if( Values?.Length == 0 
             || index > Count 
             || index < 0 )
                 throw new IndexOutOfRangeException();
 
             //nouveau tableau
-            var tmp = new string[Count - 1];
+            var tmp = new T[Count - 1];
 
             //copier les elements du tableau initial
             for (var i = 0 ; i < tmp.Length ; i++)

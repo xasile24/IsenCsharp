@@ -12,7 +12,7 @@ namespace Isen.DotNet.ConsoleApp
             var message = hello.Greet();
             Console.WriteLine(message);
 
-            var list = new MyCollection();
+            var list = new MyCollection<string>();
             list.Add("A");
             list.Add("B");
             list.Add("C");

@@ -4,12 +4,12 @@ using Isen.DotNet.Library.Lists;
 
 namespace Isen.DotNet.Library.Tests
 {
-    public class MyCollectionTest
+    public class MyCollectionStringTest
     {
         [Fact]
         public void CountTest()
         {
-            var list = new MyCollection();
+            var list = new MyCollection<string>();
             Assert.True(list.Count == 0);
             list.Add("A");
             Assert.True(list.Count == 1);
@@ -21,7 +21,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void AddTest()
         {
-            var list = new MyCollection();
+            var list = new MyCollection<string>();
             list.Add("A");
             list.Add("B");
             list.Add("C");
@@ -32,7 +32,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void IndexTest()
         {
-            var list = new MyCollection();
+            var list = new MyCollection<string>();
             list.Add("A");
             list.Add("B");
             list.Add("C");
@@ -43,7 +43,7 @@ namespace Isen.DotNet.Library.Tests
 	    [Fact]
         public void RemoveAtTest()
         {
-            var list = new MyCollection();
+            var list = new MyCollection<string>();
             list.Add("A");
             list.Add("B");
             list.Add("C");
@@ -66,6 +66,36 @@ namespace Isen.DotNet.Library.Tests
 
             list.RemoveAt(0);
             Assert.True(list.Count == 0);
+
+            try
+            {
+                list.RemoveAt(0);
+            }
+            catch(Exception e)
+            {
+                Assert.True(
+                    e is IndexOutOfRangeException);
+            }
+
+            try
+            {
+                list.RemoveAt(1);
+            }
+            catch(Exception e)
+            {
+                Assert.True(
+                    e is IndexOutOfRangeException);
+            }
+
+            try
+            {
+                list.RemoveAt(-1);
+            }
+            catch(Exception e)
+            {
+                Assert.True(
+                    e is IndexOutOfRangeException);
+            }
         }
     }
 }
