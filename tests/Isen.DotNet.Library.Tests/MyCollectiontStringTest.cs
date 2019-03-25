@@ -97,5 +97,21 @@ namespace Isen.DotNet.Library.Tests
                     e is IndexOutOfRangeException);
             }
         }
+        [Fact]
+        public void IndexOfTest()
+        {
+            var list = new MyCollection<string>();
+            list.Add("A");
+            list.Add("B");
+            list.Add("B");
+	        list.Add("C");
+            Assert.True(list.IndexOf("B") == 1);
+            Assert.True(list.IndexOf("A") == 0);
+            Assert.True(list.IndexOf("C") == 3);
+            Assert.True(list.IndexOf("Z") < 0);
+            Assert.True(list.IndexOf(null) < 0 );
+        }
+
+
     }
 }

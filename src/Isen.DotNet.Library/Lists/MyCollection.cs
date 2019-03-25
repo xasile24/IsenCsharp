@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Isen.DotNet.Library.Lists
 {
-    public class MyCollection<T>
+    public class MyCollection<T> : IList<T>
     {
         private T[] _values;
 
@@ -11,12 +13,14 @@ namespace Isen.DotNet.Library.Lists
             _values = new T[0];
         }
 
-        
+
         /// <summary>
         ///Taille de la liste
         ///</summary>
         public int Count => _values.Length;
         public T[] Values => _values;
+
+        public bool IsReadOnly => false;
 
         public T this[int index]
         {
@@ -62,6 +66,54 @@ namespace Isen.DotNet.Library.Lists
             }
             //echanger les tableaux
             _values = tmp;
+        }
+
+        public int IndexOf(T item)
+        {
+            var index = -1;
+            for ( var i = 0 ; i < Count ; i++)
+            {
+                if (this[i].Equals(item)) {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
+        public void Insert(int index, T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }

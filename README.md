@@ -62,3 +62,9 @@ Supprimer la classe autogénérée (ClassC1)
 --- On remplace tout les string de la classe par T
 * On renomme le fichier de Test pour préciser qu'il s'applique que au MyCollection<string> : `MyCollectionStringTest`
 * Dupliquer `MyCollectionStringTest` en `MyCollectionCharTest` et adapter le code en conséquence
+
+#Implementation l'interface IList<T>
+* Indiquer l'implementation de l'heritage de l'interface IList<T>
+* Utiliser l'ampoule de Omnisharp pour génerer automatiquement le using manquant et pour implementer les prototypes des méthodes de l'interface
+* Coder ensuite les méthodes et leurs tests
+
