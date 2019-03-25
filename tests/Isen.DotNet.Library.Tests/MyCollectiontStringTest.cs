@@ -112,6 +112,34 @@ namespace Isen.DotNet.Library.Tests
             Assert.True(list.IndexOf(null) < 0 );
         }
 
+        [Fact]
+        public void ContainTest()
+        {
+            var list = new MyCollection<string>();
+            list.Add("A");
+            list.Add("B");
+
+            #pragma warning disable xUnit2017
+            Assert.True(list.Contains("A"));
+            Assert.False(list.Contains("F"));
+            #pragma warning restore xUnit2017
+        }
+
+        [Fact]
+
+        public void RemoveTest()
+        {
+            var list = new MyCollection<string>();
+            list.Add("A");
+            list.Add("B");
+            list.Add("B");
+            list.Add("C");
+
+            Assert.True(list.Remove("B"));
+            Assert.True(list.Count == 3);
+            Assert.True(list[2] == "C");
+            Assert.False(list.Remove("Z"));
+        }
 
     }
 }

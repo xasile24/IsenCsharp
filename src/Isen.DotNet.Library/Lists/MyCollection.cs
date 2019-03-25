@@ -91,10 +91,8 @@ namespace Isen.DotNet.Library.Lists
             throw new NotImplementedException();
         }
 
-        public bool Contains(T item)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Contains(T item) =>
+            IndexOf(item) >= 0;
 
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -103,7 +101,11 @@ namespace Isen.DotNet.Library.Lists
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            var index = IndexOf(item);
+            if (index < 0) return false;
+
+            RemoveAt(index);
+            return true;
         }
 
         public IEnumerator<T> GetEnumerator()
