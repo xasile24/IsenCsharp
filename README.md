@@ -68,3 +68,43 @@ Supprimer la classe autogénérée (ClassC1)
 * Utiliser l'ampoule de Omnisharp pour génerer automatiquement le using manquant et pour implementer les prototypes des méthodes de l'interface
 * Coder ensuite les méthodes et leurs tests
 
+# Manipulation des modèles
+* Creer un nouveau dossier dans Library 'Persons' et une classe Person
+
+#Apartée sur les type nullables
+```csharp
+     public void Why()
+        {
+            // Person est un type référence
+            Persons person; // null
+            person = new Persons(); // pas null
+            person = null; // re null
+
+            //int est un Value type
+            // les types primitifs (bool, int, long, float ...)
+            // sont des types valeur
+            bool b; // true
+            // b = null // interdit
+
+            // bool? est un bool nulable (type référence)
+            // bool? != bool
+            // bool? = Nullable<bool>
+
+            bool? nb = null; // null
+            Nullable<bool> nbb; // null aussi
+            var hasValue = nb.HasValue; // false
+            nb = true;
+            var val = nb.Value; // true
+
+        }
+```
+* Fin de l'apartée
+
+#Retour au modèle
+* Une personne à 3 champs:
+--- Prénom
+--- Nom
+--- Date de naissance
+
+* On créer deux constructeurs (2 et 3 parametres)
+* La version 2 parametres appelle celui à deux parametres puis complète

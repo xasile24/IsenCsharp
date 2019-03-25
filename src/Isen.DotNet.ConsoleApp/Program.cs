@@ -16,10 +16,10 @@ namespace Isen.DotNet.ConsoleApp
             list.Add("A");
             list.Add("B");
             list.Add("C");
-            foreach(var v in list.Values)
-            {
-                Console.WriteLine(v);
-            }
+            var enumerator = 
+                list.GetEnumerator();
+            while (enumerator.MoveNext())
+                Console.WriteLine(enumerator.Current);
         }
     }
 }

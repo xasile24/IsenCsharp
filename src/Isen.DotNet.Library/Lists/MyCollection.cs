@@ -18,7 +18,7 @@ namespace Isen.DotNet.Library.Lists
         ///Taille de la liste
         ///</summary>
         public int Count => _values.Length;
-        public T[] Values => _values;
+        protected T[] Values => _values;
 
         public bool IsReadOnly => false;
 
@@ -83,12 +83,25 @@ namespace Isen.DotNet.Library.Lists
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            if( index > Count
+            || index < 0 )
+                throw new ArgumentOutOfRangeException();
+
+            var tmp = new T[Count + 1];
+
+            for(var i = 0 ; i < Count+1 ; i++) 
+            {
+                if(i == index) tmp[i] = item;
+                else if(i > index) tmp[i] = Values[i-1];
+                else if(i < index) tmp[i] = _values[i];
+            }
+
+            _values = tmp;
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            _values = new T[0];
         }
 
         public bool Contains(T item) =>
@@ -96,7 +109,14 @@ namespace Isen.DotNet.Library.Lists
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if(array == null) throw new ArgumentNullException();
+            if(arrayIndex < 0) throw new ArgumentOutOfRangeException();
+            if(Count + arrayIndex > array.Length) throw new ArgumentException();
+
+            for(var i = 0 ; i < Count; i++)
+            {
+                array[arrayIndex + i] = this[i];
+            }
         }
 
         public bool Remove(T item)
@@ -108,14 +128,15 @@ namespace Isen.DotNet.Library.Lists
             return true;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator() //version typé
         {
-            throw new NotImplementedException();
+            for(var i = 0 ; i < Count ; i++)
+            {
+                yield return this[i];
+            }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>  //version non typé
+            GetEnumerator();
     }
 }

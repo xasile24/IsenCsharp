@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using Isen.DotNet.Library.Lists;
+using System.Collections.Generic;
 
 namespace Isen.DotNet.Library.Tests
 {
@@ -26,7 +27,7 @@ namespace Isen.DotNet.Library.Tests
             list.Add("B");
             list.Add("C");
             var targetArray = new string[] {"A", "B", "C"};
-            Assert.Equal(targetArray, list.Values);
+            Assert.Equal(targetArray, list);
         }
 
         [Fact]
@@ -36,9 +37,9 @@ namespace Isen.DotNet.Library.Tests
             list.Add("A");
             list.Add("B");
             list.Add("C");
-            Assert.True(list.Values[0] == "A");
-            Assert.True(list.Values[1] == "B");
-            Assert.True(list.Values[2] == "C");
+            Assert.True(list[0] == "A");
+            Assert.True(list[1] == "B");
+            Assert.True(list[2] == "C");
         }
 	    [Fact]
         public void RemoveAtTest()
@@ -141,5 +142,103 @@ namespace Isen.DotNet.Library.Tests
             Assert.False(list.Remove("Z"));
         }
 
+
+        [Fact]
+        public void InsertTest()
+        {
+           var list = new MyCollection<string>();
+
+            list.Insert(0, "D"); // D
+            list.Insert(0, "B"); // B D
+            list.Insert(0, "A"); // A B D
+            list.Insert(3, "E"); // A B D E
+            list.Insert(2, "C"); // A B C D E
+
+            var targetArray = 
+                new string[] {"A", "B", "C", "D", "E"};
+
+            Assert.Equal(targetArray, list);
+
+            try
+            {
+                list.Insert(-1, "Z");
+            }
+            catch(Exception e)
+            {
+                Assert.True(
+                    e is ArgumentOutOfRangeException);
+            }
+
+            try
+            {
+                list.Insert(6, "Z");
+            }
+            catch(Exception e)
+            {
+                Assert.True(
+                    e is ArgumentOutOfRangeException);
+            }
+        }
+
+        [Fact]
+
+        public void EnumeratorTest()
+        {
+            var list = new MyCollection<string>();
+            list.Add("A");
+            list.Add("B");
+            list.Add("C");
+            list.Add("D");
+
+            Assert.True(
+                list is IEnumerable<string>);
+
+            var targetArray = 
+                new string[] {"A", "B", "C", "D"};
+            foreach(var item in list)
+            {
+                Assert.True(true);
+            }
+            Assert.Equal(targetArray, list);
+        }
+
+        [Fact]
+        public void CopyToTest()
+        {
+            var list = new MyCollection<string>();
+            list.Add("A");
+            list.Add("B");
+            list.Add("C");
+
+            var biggerArray = new string[] {"0", "1", "2", "a", "b", "c", "d"};
+            var biggerArrayExpected = new string[] {"0", "1", "2", "A", "B", "C", "d"};
+            list.CopyTo(biggerArray, 3);
+            Assert.Equal(biggerArray, biggerArrayExpected);
+            
+            var equalArray = new string[] {"0", "1", "2", "a", "b", "c"};
+            var equalArrayExpected = new string[] {"0", "1", "2", "A", "B", "C"};
+            list.CopyTo(equalArray, 3);
+            Assert.Equal(equalArray, equalArrayExpected);
+
+            var smallerArray = new string[] {"0", "1", "2", "a", "b"};
+            try
+            {
+                list.CopyTo(smallerArray, 3);
+
+                // Si on atteint cette ligne,
+                // c'est que la ligne au dessus n'a pas planté 
+                // alors qu'elle devait
+                Assert.True(false);
+
+            }
+            catch(Exception e)
+            {
+                Assert.True(e is ArgumentException);
+            }
+
+        }
+
     }
+
+
 }
