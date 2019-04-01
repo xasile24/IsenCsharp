@@ -101,13 +101,13 @@ namespace Isen.DotNet.Library.Tests
         }   
 
         [Fact]
-        public void getAll()
+        public void GetAll()
         {
             var cityRepo = new inMemoryCityRepository();
             var contextCount = cityRepo.Context
                 .ToList()
                 .Count();
-            var getAllCount = cityRepo.getAll()
+            var getAllCount = cityRepo.GetAll()
             .ToList()
             .Count();
             Assert.True(contextCount == getAllCount);

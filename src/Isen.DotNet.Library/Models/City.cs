@@ -2,7 +2,7 @@ using System;
 
 namespace Isen.DotNet.Library.Models
 {
-    public class City : _BaseModel
+    public class City : BaseModel<City>
     {
         public override int Id { get;set; }
         public override string Name { get;set; }
@@ -10,5 +10,11 @@ namespace Isen.DotNet.Library.Models
 
         public override string Display =>
             $"{base.Display} | ZipCode={ZipCode}";
+
+        public override void Map(City copy)
+        {
+            base.Map(copy);
+            ZipCode = copy.ZipCode;
+        }
     }
 }

@@ -162,9 +162,16 @@ Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de 
 
 
 * A ce stade, nous avons couvert toutes les opérations de CRUD:
-* C = Create
-* R = Read
-* U = Update
-* D = Delete
+- C = Create
+- R = Read
+- U = Update
+- D = Delete
 
+## Refactoring: généralisation du repo
+
+* Dans le dossier basee, créer ``BaseInMemoryRepository``
+* Déplacer toutes les méthodes de CityRepository vers BaseInMemoryRepository et les adapter en generic.
+
+### Extraction d'interface
+* Dans le dossier Interfaces, créer ``IBaseRepository`` et y rappatrier toutes les signatures des opérations de CRUD
 
