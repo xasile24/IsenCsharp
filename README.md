@@ -278,4 +278,8 @@ Dans le dossier des contrôleurs, créer `CityController.cs` et ajouter les mét
 
 ## Ajouter les vues correspondates
 
+### Les vues vides
 Dupliquer le dossier Home et le nommer City, viser et adapter les vues : Enlever tout le Html existant et mettre juste 1 titre dans chaques views
+
+### Maquette du tableau
+Utiliser les élements de tabeaux en layout Bootstrap issus de cette doc : https://getbootstrap.com/docs/4.1/content/tables/
