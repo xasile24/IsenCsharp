@@ -1,12 +1,23 @@
 using System;
 
-namespace Isen.DotNet.Library.Persons
+namespace Isen.DotNet.Library.Models
 {
-    public class Person
+    public class Person : _BaseModel
     {
+        public override int Id { get;set; }
+        public override string Name 
+        { 
+            get { return _name ?? 
+                (_name = $"{FirstName} {LastName}");
+                }
+            set { _name = value; }
+        }
+
+        private string _name;
         public string FirstName { get;set; }
         public string LastName { get;set; }
         public DateTime? DateOfBirth { get;set; }
+        public City BornIn { get;set; }
 
         public int? Age 
         { 
@@ -22,35 +33,35 @@ namespace Isen.DotNet.Library.Persons
             }
         }
 
-        public Person(
+        /*/public Person(
             string firstName,
             string lastName,
             DateTime dateOfBirth) :
             this(firstName, lastName)
         {
             DateOfBirth = dateOfBirth;
-        }
-
+        }*/
+        /*
         public Person(
             string firstName,
             string lastName)
         {
             FirstName = firstName;
             LastName = lastName;
-        }
+        } */
 
-        public Person()
+        public Person(){ }
+
+        public override string Display
         {
-            
+            get
+            {
+                var sAge = Age.HasValue ? 
+                    Age.ToString() : 
+                    "undef";
+                var display = $"{base.Display} | Age={sAge} | City={BornIn}";
+                return display;
+            }
         }
-
-        public override string ToString(){
-            var sAge = Age.HasValue ? 
-                Age.ToString() : 
-                "undef";
-            var display = $"{FirstName} {LastName.ToUpper()} [{sAge}]";
-            return display;
-        }
-            
     }
 }

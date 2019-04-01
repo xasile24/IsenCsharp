@@ -108,3 +108,27 @@ Supprimer la classe autogénérée (ClassC1)
 
 * On créer deux constructeurs (2 et 3 parametres)
 * La version 2 parametres appelle celui à deux parametres puis complète
+
+### Migration vers une entité
+
+* Ajouter un champ Id (int) et Name (string)
+* Pour le champ name on va déclarer explocotement le champs de backup privé _name
+
+### Modele city
+* Créer dans Models une classe city, avec Id et Name
+* Name + ZipCode
+* Dans Person ajouter une relation avec City : un champ BornIn de type City
+
+### Refactoring
+* Déplacer Id et Name vers une classe de base, abstraite : `_BaseModel`
+* Faire dériver City et Person de _BaseModel.
+Noter les champs Id et Name comme des override (puisque les champs sont virtuels dans BaseModel).
+
+### Display 
+* Implémenter un mode d'affichage de base (string), overrridable.
+* l'utiliser dans `ToString()`
+* Completer ce mécanisme afin d'ajouter le ZipCode à l'affichage des City
+* Puis reprendre l'affichage d'une Person.
+
+### Méthode Repository
+* But : Avoir une classe de base qui s'occupe des connexions avec la base de données et qui définie les méthodes de bases
