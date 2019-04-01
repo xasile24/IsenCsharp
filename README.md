@@ -202,3 +202,80 @@ Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de 
 * Ajouter le projet Library en référence au projet web : `dotnet add reference ../Isen.DotNet.Library`
 
 * Revenir à la racine et ajouter ce projet à la solution : `dotnet sln add src/Isen.DotNet.Web`
+
+
+## Anatomie d'un projet MVC
+
+le schéma (routing) par défaut des urls d'un projet MVC est:
+https://localhost:5001/[Vue]/[Action][?param=value&param2=value2]
+
+OU
+
+https://localhost:5001/[Vue]/[Action][?param=value....]
+
+Ce schéma peut être complété / modifié / reécrit selon les besoins
+
+* Dossier `/wwwroot` : contient essentiellement les assets de l'application, soit les images, les css (scss/sass) et les js (ou typescript), ainsi que les copies locales des librairies utilisées (Bootstrap4, jQuery...). Golbalement, tout ce qui doit être chargé côté navigateur.
+
+* Dossier `/Views` : contient des Fichier `.cshtml`, ce sont des templates HTML écrit avec la syntaxe de templating *Razor*. Razor utilise plus ou moins la syntaxe du C#.
+    
+    * Chaque dossier (à part Shared) correspond à un contrôleur. Exemmple : le dossier Home contient les vues accessible via https://localhost:5001/Home et chaques vue à un controller correspondant (que l'on verra plus tard) et on peut avoir plisieurs vues par contrôleur. Ex : `Privacy` et `Index` sont 2 vues / actions du contrôleur `Home`.
+
+    * Chaque fichier correspond à une action. Exemple : Dans Home, le fichier `Privacy.cshtml` correspong à l'url `https://localhost:5001/Home/Privacy` 
+
+    * L'action `Index` est l'action par défaut. Donc si l'url ne précise pas d'action dans ses segments, c'est l'action Index qui est appelée.
+
+    * `/Shared/_Layout.cshtml` contient le template global dans lequel les vues vont s'insérer.
+
+    Les chemins en `~/` correspondent à `/wwwroot` .
+
+    Les librairies (JS / CSS) sont chargées localement en environnement de dev, et depuis un serveur CND, en environnement de prod.
+
+    Les CSS sont chargés dans le `<head>` de la page, les JS quant à eux tout à la fin du `<body>`.
+
+* Dossier `/Controllers` :  Classes C#, dont le but est :
+    * Sens Serveur > Client : de prendre des data dans un modèle, et les injecter dans la vue/action correspondante
+    * Sens Client > Serveur : de répondre aux requêtes (GET, POST, etc...)
+    
+    Le nommage des classes de controller est normalisé :
+        `NomDeLaVueController` (Ex : `HomeController`)
+    Le nommage des méthodes est également normalisé, et correspond aux actions. (Ex : `HomeController.Privacy()` ou `HomeController.Index()`)
+
+* Dossier `/Models` : ce dosseir contient des ViewModels. Donc des classes C# uniquement constituées de champs (pas de logique, pas de méthodes). On appelle se genre de classes des POCO (Plain Old C# object), ou encore des Value Objects
+
+    Par opposition aux classes de Model métier (Person, City), les ViewModel ont pour but d'avoir uniquement les champs strictement nécessaires à l'affichage.
+    
+    Ex : Si on affiche une liste des `Person`, avec uniquement nom et prénom, on créera un `PersonViewModel` avec `FirstName` et `LastName`, mais on ne mettera pas `BornIn` ni `DateOfBirth`. le but étant d'avoir un objet aussi léger que possible, pour minimiser les transferts.
+
+* Fichier `/Startup.cs` : Configuration des injections de dépendances, des services utilisés par l'application (repositories, librairies, loggers, etc...)
+
+* Fichier `/Program.cs` : point d'entrée de l'application. Depuis .Net Core et ASP.NET MVC Core, une application web est en fait une application console.
+
+    Ce point d'entrée lance la configuration des services, puis lance le serveur web embarqué (Kestrel).
+
+* Fichier `/appsettings.json` : Ce sont les settings de l'application. La chaîne de connexion à une base de données se retrouvera là-dedans.
+
+# Ajout de vues
+
+## Ajouter des éléments de menu
+
+Le menu de navigation utilise les éléments et classes issues du framework Bootstrap4. Utiliser les élément sde ce fraùework pour ajouter une navigation en menus déroulants.
+Doc : https://getbootstrap.com/docs/4.1/getting-started/introduction/
+
+Ajouter la navigation suivante dans le fichier `_Layout.cshtml`: 
+* Villes (pas une page, juste un noeud de menu)
+    * Toutes (afficher la liste des villes)
+        `https://localhost:5001/City/[Index]`
+    * Ajouter ... (Afficher un formulaire de saisie vide)
+        `https://localhost:5001/City/Edit`
+
+Lorsqu'on cliquera sur une ville dans la liste, on pourra l'éditer avec une url du type `https://localhost:5001/City/Edit/2` qui appellera en fait la vue "Ajouter", qui servira aussi bien à la création qu'à la modification.
+
+
+## Ajouter le contrôleur CityController
+
+Dans le dossier des contrôleurs, créer `CityController.cs` et ajouter les méthodes correspondant aux 2 actions prévues (Index et Edit)
+
+## Ajouter les vues correspondates
+
+Dupliquer le dossier Home et le nommer City, viser et adapter les vues : Enlever tout le Html existant et mettre juste 1 titre dans chaques views
