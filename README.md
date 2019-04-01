@@ -130,5 +130,16 @@ Noter les champs Id et Name comme des override (puisque les champs sont virtuels
 * Completer ce mécanisme afin d'ajouter le ZipCode à l'affichage des City
 * Puis reprendre l'affichage d'une Person.
 
-### Méthode Repository
-* But : Avoir une classe de base qui s'occupe des connexions avec la base de données et qui définie les méthodes de bases
+### Création de Repositories
+* `But : Avoir une classe de base qui s'occupe des connexions avec la base de données et qui définie les méthodes de bases`
+* Créer cette arbo :
+[Library]
+    /Repositories
+    /Repositories/Base (repo abstrait)
+    /Repositories/Interfaces (base et interfaces spécifiques)
+    /Repositories/InMemory (implementation InMemory)
+
+* Implementer une liste test (ModelCollection)
+* Ajouter deux méthodes Single : recherche par Id et recherche par Name
+* Ecrire des tests unitaires pour tester ces deux méthodes Single.
+
