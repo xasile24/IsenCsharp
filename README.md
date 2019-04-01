@@ -189,3 +189,16 @@ Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de 
 * En thermes de verbatim de Base de données relationelles, c'est une relation `one-to-many`, puisque une personne a une ville, mais une ville a potentiellement plusieurs personnes.
 * On peut donc, au niveau de `City`, ajouter une propriété de liste de personnes qui serait donc la relation réciproque de `Person.BornIn`
 * Attention cependant, même si on ajoute cette relation, elle ne v a pas se remplir toute seule
+
+
+# Ajout d'un projet ASP.NET MVC (Cora)
+
+## Ajout du projet depuis le template de la CLI .Net Core
+
+* Depuis le dossier src, ajouter un dossier `Isen.DotNet.Web`
+* Naviguer dans ce dossier puis `dotnet new mvc`
+* Directement : `dotnet run` et ouvrir http://localhost:5000
+
+* Ajouter le projet Library en référence au projet web : `dotnet add reference ../Isen.DotNet.Library`
+
+* Revenir à la racine et ajouter ce projet à la solution : `dotnet sln add src/Isen.DotNet.Web`
