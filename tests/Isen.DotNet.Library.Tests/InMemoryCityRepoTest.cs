@@ -5,15 +5,22 @@ using Isen.DotNet.Library.Lists;
 using System.Collections.Generic;
 using Isen.DotNet.Library.Repositories.inMemoryCityRepository;
 using Isen.DotNet.Library.Models;
+using Isen.DotNet.Library.Repositories.Interfaces;
 
 namespace Isen.DotNet.Library.Tests
 {
     public class InMemoryCityRepoTest
     {
+        public class CityRepoFactory
+        {
+            public static ICityRepository Create() =>
+                new inMemoryCityRepository();
+        }
+
         [Fact]
         public void SingleById()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var city1 = cityRepo.Single(1);
             Assert.True(city1.Id == 1);
 
@@ -25,7 +32,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void SingleByName()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var toulon = cityRepo.Single("Toulon");
             Assert.True(toulon.Name.Equals("Toulon"));
 
@@ -36,7 +43,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void UpdateUpdate()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var initialCount = cityRepo.Context
                 .ToList()
                 .Count();
@@ -58,7 +65,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void UpdateCreate()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var initialCount = cityRepo.Context
                 .ToList()
                 .Count();
@@ -83,7 +90,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void Delete()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var initialCount = cityRepo.Context
                 .ToList()
                 .Count();
@@ -103,7 +110,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void GetAll()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var contextCount = cityRepo.Context
                 .ToList()
                 .Count();
@@ -116,7 +123,7 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void Find()
         {
-            var cityRepo = new inMemoryCityRepository();
+            var cityRepo = CityRepoFactory.Create();
             var query = cityRepo
                 .Find(c => c.Name.Contains("e"));
             var result = query.ToList();

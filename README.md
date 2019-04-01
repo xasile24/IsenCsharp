@@ -174,4 +174,10 @@ Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de 
 
 ### Extraction d'interface
 * Dans le dossier Interfaces, créer ``IBaseRepository`` et y rappatrier toutes les signatures des opérations de CRUD
+* Créer une interfaec ``ICityRepository`` qui implémente ``IBaseRepository``, sans ajouter de méthode
+* ``InMemoryCityRepositpry`` devra implémenter cette interface.
 
+### TD : Refaire la même chose pour PersonRepository
+* Créer l'interface IPersonRepository
+* Créer InMemoryPersonRepository
+* Créer InMemoryPersonRepoTest en dupliquant l'autre

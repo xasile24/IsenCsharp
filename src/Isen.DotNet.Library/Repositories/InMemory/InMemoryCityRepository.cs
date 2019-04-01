@@ -1,16 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Isen.DotNet.Library.Models;
 using Isen.DotNet.Library.Repositories.Base;
+using Isen.DotNet.Library.Repositories.Interfaces;
 
 namespace Isen.DotNet.Library.Repositories.inMemoryCityRepository
 {
     public class inMemoryCityRepository :
-        BaseInMemoryRepository<City>
+        BaseInMemoryRepository<City>,
+        ICityRepository
     {
-        //private List<City> _context;
-
         public override List<City> SampleData =>
             new List<City>()
             {
