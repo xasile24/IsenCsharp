@@ -3,18 +3,18 @@ using Xunit;
 using System.Linq;
 using Isen.DotNet.Library.Lists;
 using System.Collections.Generic;
-using Isen.DotNet.Library.Repositories.inMemoryPersonRepository;
+using Isen.DotNet.Library.Repositories.InMemoryPersonRepository;
 using Isen.DotNet.Library.Models;
 using Isen.DotNet.Library.Repositories.Interfaces;
 
 namespace Isen.DotNet.Library.Tests
 {
-    public class inMemoryPersonRepoTest
+    public class InMemoryPersonRepoTest
     {
         public class PersonRepoFactory
         {
             public static IPersonRepository Create() =>
-                new inMemoryPersonRepository();
+                new InMemoryPersonRepository();
         }
 
         [Fact]

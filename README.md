@@ -181,3 +181,12 @@ Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de 
 * Créer l'interface IPersonRepository
 * Créer InMemoryPersonRepository
 * Créer InMemoryPersonRepoTest en dupliquant l'autre
+
+### Composition / Injection de Repositories
+* Dans InMemoryPersonRepository, ajouter un constructeur, qui prend comme paramètre une interface de ICityRepository.
+* La classe ``PersonRepository`` nécessite d'avoir une instance de ``ICityRepository`` pour fonctionner. On dit qu'elle a une dépendance sur cette classe.
+* Cette dépendance est déclérée dans son constructeur.
+* Ce design pattern d'appelle : 
+- Pattern d'Injecttion de Dependance
+- aka IoC : Inversion of Control
+- aka DI : Dependency Injection
