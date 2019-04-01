@@ -35,14 +35,6 @@ Ajouter le projet Library comme référence du projet ConsoleApp.
 # C#
 Supprimer la classe autogénérée (ClassC1)
 
-
-.
-.
-.
-
-
-
-
 # Ajouter un projet de tests unitaires
 * A la racine de la solution, créer un dossier 'tests' et un sous-dossier `Isen.DotNet.Library.Tests`
 * Naviguer vers ce dossier
@@ -190,3 +182,10 @@ Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de 
 - Pattern d'Injecttion de Dependance
 - aka IoC : Inversion of Control
 - aka DI : Dependency Injection
+
+### Relations réciproques
+* Nous avons la classe de modèle `Person` qui a un champ de type `city` dans sa propriété `BornIn`
+* En terme de verbatim OOP, c'est une relation par composition (une ckasse a un champ dont le type est une autre classe), par opposition à une relation par héritage.
+* En thermes de verbatim de Base de données relationelles, c'est une relation `one-to-many`, puisque une personne a une ville, mais une ville a potentiellement plusieurs personnes.
+* On peut donc, au niveau de `City`, ajouter une propriété de liste de personnes qui serait donc la relation réciproque de `Person.BornIn`
+* Attention cependant, même si on ajoute cette relation, elle ne v a pas se remplir toute seule
