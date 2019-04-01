@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Isen.DotNet.Library.Repositories.InMemoryPersonRepository;
 using Isen.DotNet.Library.Models;
 using Isen.DotNet.Library.Repositories.Interfaces;
+using Isen.DotNet.Library.Repositories.inMemoryCityRepository;
 
 namespace Isen.DotNet.Library.Tests
 {
@@ -13,8 +14,10 @@ namespace Isen.DotNet.Library.Tests
     {
         public class PersonRepoFactory
         {
-            public static IPersonRepository Create() =>
-                new InMemoryPersonRepository();
+            public static IPersonRepository Create(
+                ICityRepository cityRepository = null) =>
+                    new InMemoryPersonRepository(cityRepository ??
+                    new inMemoryCityRepository());
         }
 
         [Fact]
@@ -135,6 +138,31 @@ namespace Isen.DotNet.Library.Tests
             }
 
             Assert.True(result.Count == countPersonsFromQuery);
+        }
+
+        [Fact]
+        public void DiTest()
+        {
+            ICityRepository cityRepo = new inMemoryCityRepository();
+            var personRepo = PersonRepoFactory.Create(cityRepo);
+
+            Assert.True(
+                personRepo
+                    .Single("Jhon Doe")?.BornIn?.Name == "Toulon");
+
+            var cityId = personRepo
+                .Single("Jhon Doe")?.BornIn?.Id;
+            var toulon = cityRepo.Single("Toulon");
+            toulon.Name = "New York";
+            cityRepo.Update(toulon);
+            cityRepo.SaveChanges();
+
+            Assert.True(
+                personRepo
+                    .Single("Jhon Doe")?.BornIn?.Name == "New York");
+            var updatedCityId = personRepo
+                .Single("Jhon Doe")?.BornIn?.Id;
+            Assert.True(cityId == updatedCityId);
         }
     }
 }

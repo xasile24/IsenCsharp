@@ -18,9 +18,15 @@ namespace Isen.DotNet.ConsoleApp
                 new InMemoryPersonRepository(cityRepo);
 
             foreach(var p in persoRepo.Context)
-            {
                 Console.WriteLine(p);
-            }
+            
+            var toulon = cityRepo.Single("Toulon");
+            toulon.Name = "New York";
+            cityRepo.Update(toulon);
+            cityRepo.SaveChanges();
+
+            foreach(var p in persoRepo.Context)
+                Console.WriteLine(p);
         }
     }
 }

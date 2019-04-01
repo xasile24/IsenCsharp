@@ -20,8 +20,6 @@ namespace Isen.DotNet.Library.Repositories.InMemoryPersonRepository
         {
             _cityRepository = cityRepository;
         }
-
-        public InMemoryPersonRepository(){}
         public override List<Person> SampleData =>
             new List<Person>()
             {
