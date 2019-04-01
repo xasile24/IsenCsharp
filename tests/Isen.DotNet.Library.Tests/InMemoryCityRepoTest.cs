@@ -37,7 +37,7 @@ namespace Isen.DotNet.Library.Tests
         public void UpdateUpdate()
         {
             var cityRepo = new inMemoryCityRepository();
-            var initialCount = cityRepo.ModelCollection
+            var initialCount = cityRepo.Context
                 .ToList()
                 .Count();
             var toulon = cityRepo.Single("Toulon");
@@ -45,7 +45,7 @@ namespace Isen.DotNet.Library.Tests
             toulon.ZipCode = "83200";
             cityRepo.Update(toulon);
             cityRepo.SaveChanges();
-            var finalCount = cityRepo.ModelCollection
+            var finalCount = cityRepo.Context
                 .ToList()
                 .Count();
 
@@ -59,7 +59,7 @@ namespace Isen.DotNet.Library.Tests
         public void UpdateCreate()
         {
             var cityRepo = new inMemoryCityRepository();
-            var initialCount = cityRepo.ModelCollection
+            var initialCount = cityRepo.Context
                 .ToList()
                 .Count();
             var gap = new City()
@@ -69,7 +69,7 @@ namespace Isen.DotNet.Library.Tests
             };
             cityRepo.Update(gap);
             cityRepo.SaveChanges();
-            var finalCount = cityRepo.ModelCollection
+            var finalCount = cityRepo.Context
                 .ToList()
                 .Count();
             Assert.True(initialCount == finalCount-1);
@@ -79,5 +79,25 @@ namespace Isen.DotNet.Library.Tests
             Assert.True(gapCreated.ZipCode == "05000");
             Assert.True(!gapCreated.isNew());
         }
+
+        [Fact]
+        public void Delete()
+        {
+            var cityRepo = new inMemoryCityRepository();
+            var initialCount = cityRepo.Context
+                .ToList()
+                .Count();
+            
+            var toulon = cityRepo.Single("Toulon");
+            cityRepo.Delete(toulon);
+            cityRepo.SaveChanges();
+
+            var finalCount = cityRepo.Context
+                .ToList()
+                .Count();
+
+            Assert.True(initialCount == finalCount+1);
+            Assert.True(cityRepo.Single("Toulon") == null);
+        }   
     }
 }
