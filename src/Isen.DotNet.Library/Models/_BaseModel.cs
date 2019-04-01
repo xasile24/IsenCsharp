@@ -7,6 +7,8 @@ namespace Isen.DotNet.Library.Models
         public virtual int Id { get;set; }
         public virtual string Name { get;set; }
 
+        public virtual bool isNew() => Id <= 0;
+
         public virtual string Display => 
             $"[{this.GetType()}] Id={Id} | Name={Name}";
 

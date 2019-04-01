@@ -1,8 +1,10 @@
 using System;
 using Xunit;
+using System.Linq;
 using Isen.DotNet.Library.Lists;
 using System.Collections.Generic;
 using Isen.DotNet.Library.Repositories.inMemoryCityRepository;
+using Isen.DotNet.Library.Models;
 
 namespace Isen.DotNet.Library.Tests
 {
@@ -20,6 +22,7 @@ namespace Isen.DotNet.Library.Tests
 
         }
 
+        [Fact]
         public void SingleByName()
         {
             var cityRepo = new inMemoryCityRepository();
@@ -28,6 +31,53 @@ namespace Isen.DotNet.Library.Tests
 
             var fake = cityRepo.Single("Ongle");
             Assert.True(fake == null);
+        }
+
+        [Fact]
+        public void UpdateUpdate()
+        {
+            var cityRepo = new inMemoryCityRepository();
+            var initialCount = cityRepo.ModelCollection
+                .ToList()
+                .Count();
+            var toulon = cityRepo.Single("Toulon");
+            toulon.Name = "Toulon sur Mer";
+            toulon.ZipCode = "83200";
+            cityRepo.Update(toulon);
+            cityRepo.SaveChanges();
+            var finalCount = cityRepo.ModelCollection
+                .ToList()
+                .Count();
+
+            var toulonUpdated = cityRepo.Single(toulon.Id);
+            Assert.True(toulonUpdated.Name == "Toulon sur Mer");
+            Assert.True(toulonUpdated.ZipCode == "83200");
+            Assert.True(initialCount == finalCount);
+        }
+
+        [Fact]
+        public void UpdateCreate()
+        {
+            var cityRepo = new inMemoryCityRepository();
+            var initialCount = cityRepo.ModelCollection
+                .ToList()
+                .Count();
+            var gap = new City()
+            {
+                Name = "Gap",
+                ZipCode = "05000"
+            };
+            cityRepo.Update(gap);
+            cityRepo.SaveChanges();
+            var finalCount = cityRepo.ModelCollection
+                .ToList()
+                .Count();
+            Assert.True(initialCount == finalCount-1);
+
+            var gapCreated = cityRepo.Single("Gap");
+            Assert.True(gapCreated != null);
+            Assert.True(gapCreated.ZipCode == "05000");
+            Assert.True(!gapCreated.isNew());
         }
     }
 }

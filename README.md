@@ -140,6 +140,11 @@ Noter les champs Id et Name comme des override (puisque les champs sont virtuels
     /Repositories/InMemory (implementation InMemory)
 
 * Implementer une liste test (ModelCollection)
+
+### Single
 * Ajouter deux méthodes Single : recherche par Id et recherche par Name
 * Ecrire des tests unitaires pour tester ces deux méthodes Single.
+
+### Update
+* Créer une méthode qui permette e renvoyer le premier Id dispo (max + 1)
 
