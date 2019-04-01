@@ -65,6 +65,13 @@ namespace Isen.DotNet.Library.Repositories.inMemoryCityRepository
         public void Delete(City entity) =>
             Delete(entity.Id);
 
+        public IEnumerable<City> getAll() => 
+            Context;
+
+        public IEnumerable<City> Find(
+            Func<City, bool> predicate) =>
+            Context.Where(predicate);
+
         private List<City> _contextTemp;
         private List<City> ContextTemp =>
             _contextTemp ?? 

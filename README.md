@@ -147,4 +147,24 @@ Noter les champs Id et Name comme des override (puisque les champs sont virtuels
 
 ### Update
 * Créer une méthode qui permette e renvoyer le premier Id dispo (max + 1)
+* Créer une méthode Update qui gère automatiquement les créations des nouvelles entités, ou les mises à jours d'entités existantes
+* Créer une méthode ``SaveChanges()`` qui permet un mécanisme de transaction (décider de sauver les changements ou non) via une copie du contexte
+
+### Delete
+
+Créer une méthode de ``Delete()`` d'une entité, qui utilise le mécanisme de transaction
+
+### Listes
+
+* Créer une méthode ``getAll`` qui renvoie toutes les entités du contexte
+* Créer une méthode ``Find()è`qui prend comme paramètre un prédicat de recherche et qui sera passer sou sforme de lambda expression (méthode anonyme)
+
+
+
+* A ce stade, nous avons couvert toutes les opérations de CRUD:
+* C = Create
+* R = Read
+* U = Update
+* D = Delete
+
 

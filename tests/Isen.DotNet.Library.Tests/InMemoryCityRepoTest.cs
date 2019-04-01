@@ -99,5 +99,35 @@ namespace Isen.DotNet.Library.Tests
             Assert.True(initialCount == finalCount+1);
             Assert.True(cityRepo.Single("Toulon") == null);
         }   
+
+        [Fact]
+        public void getAll()
+        {
+            var cityRepo = new inMemoryCityRepository();
+            var contextCount = cityRepo.Context
+                .ToList()
+                .Count();
+            var getAllCount = cityRepo.getAll()
+            .ToList()
+            .Count();
+            Assert.True(contextCount == getAllCount);
+        }
+
+        [Fact]
+        public void Find()
+        {
+            var cityRepo = new inMemoryCityRepository();
+            var query = cityRepo
+                .Find(c => c.Name.Contains("e"));
+            var result = query.ToList();
+
+            var countCitiesFromQuery = 0;
+            foreach(var c in cityRepo.Context)
+            {
+                if(c.Name.Contains("e")) countCitiesFromQuery++;
+            }
+
+            Assert.True(result.Count == countCitiesFromQuery);
+        }
     }
 }
