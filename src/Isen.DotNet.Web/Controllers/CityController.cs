@@ -12,18 +12,18 @@ namespace Isen.DotNet.Web.Controllers
 {
     public class CityController : Controller
     {
-        public IActionResult Index()
-        {
-            ICityRepository cityRepository = 
-                new InMemoryCityRepository();
-            var list = cityRepository.GetAll();
+        private readonly ICityRepository _repository;
 
-            return View(list);
+        public CityController()
+        {
+            _repository = new InMemoryCityRepository();
         }
+        public IActionResult Index() => View(_repository.GetAll());
 
-        public IActionResult Edit()
+        public IActionResult Edit(int? id)
         {
-            return View();
+            if (id == null) return View();
+            return View(_repository.Single(id.Value));
         }
     }
 }

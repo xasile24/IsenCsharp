@@ -289,8 +289,16 @@ Utiliser les élements de tabeaux en layout Bootstrap issus de cette doc : https
 Dans le controlleur de `City`, instancier le repository de `City`.
 Récupérer la liste des cilles, et la passer à la vue.
 
-dans la vue City/Index.cshtml, préciser le type du model de syntaxe Razor avec IEnumerable<City>, avec les directives @using et @model
+dans la vue `City/Index.cshtml`, préciser le type du model de syntaxe Razor avec `IEnumerable<City>`, avec les directives `@using` et `@model`
 
-Itérer le bloc html <tr></tr> avec une directive @foreach
+Itérer le bloc html <tr></tr> avec une directive `@foreach`
 
 Ajouter les atributs de consterction d'url sur les deux liens '<a>' (Modifer, Supprimer)
+
+### Construction de la vue edit
+
+Dans `/Views/City/Edit.cshtml`, ajouter deux champs texte pour le `City.Name` et `City.ZipCode`.
+
+Dans le controleur, injecter les données (la ville selectionnée) dans l'action Edit.
+
+Dans la vue, lier les données du modèles aux champs du formulaire
