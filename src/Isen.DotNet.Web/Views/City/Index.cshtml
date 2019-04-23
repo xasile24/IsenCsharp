@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Toutes les villes";
 }
+@using Isen.DotNet.Library.Models
+@model IEnumerable<City>
 
 <h1>Toutes les villes </h1>
 
@@ -14,32 +16,23 @@
     </tr>
   </thead>
   <tbody>
+  @foreach(var city in Model)
+  {
     <tr>
-      <th scope="row">1</th>
-      <td>Toulon</td>
-      <td>83000</td>
+      <th scope="row">@city.Id</th>
+      <td>@city.Name</td>
+      <td>@city.ZipCode</td>
       <td>
-          <a href="#" class="btn btn-outline-primary">Modifier</a>
-          <a href="#" class="btn btn-outline-danger">Supprimer</a>
+          <a class="btn btn-outline-primary"
+          asp-controller="City"
+          asp-action="Edit"
+          asp-route-id="@city.Id">Modifier</a>
+          <a class="btn btn-outline-danger"
+          asp-controller="City"
+          asp-action="Delete"
+          asp-route-id="@city.Id">Supprimer</a>
       </td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Nice</td>
-      <td>06000</td>
-      <td>
-          <a href="#" class="btn btn-outline-primary">Modifier</a>
-          <a href="#" class="btn btn-outline-danger">Supprimer</a>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Marseille</td>
-      <td>13000</td>
-      <td>
-          <a href="#" class="btn btn-outline-primary">Modifier</a>
-          <a href="#" class="btn btn-outline-danger">Supprimer</a>
-      </td>
-    </tr>
+  }
   </tbody>
 </table>

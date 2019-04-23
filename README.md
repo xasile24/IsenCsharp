@@ -219,7 +219,7 @@ Ce schéma peut être complété / modifié / reécrit selon les besoins
 
 * Dossier `/Views` : contient des Fichier `.cshtml`, ce sont des templates HTML écrit avec la syntaxe de templating *Razor*. Razor utilise plus ou moins la syntaxe du C#.
     
-    * Chaque dossier (à part Shared) correspond à un contrôleur. Exemmple : le dossier Home contient les vues accessible via https://localhost:5001/Home et chaques vue à un controller correspondant (que l'on verra plus tard) et on peut avoir plisieurs vues par contrôleur. Ex : `Privacy` et `Index` sont 2 vues / actions du contrôleur `Home`.
+    * Chaque dossier (à part Shared) correspond à un contrôleur. Exemple : le dossier Home contient les vues accessible via https://localhost:5001/Home et chaques vue à un controller correspondant (que l'on verra plus tard) et on peut avoir plusieurs vues par contrôleur. Ex : `Privacy` et `Index` sont 2 vues / actions du contrôleur `Home`.
 
     * Chaque fichier correspond à une action. Exemple : Dans Home, le fichier `Privacy.cshtml` correspong à l'url `https://localhost:5001/Home/Privacy` 
 
@@ -283,3 +283,14 @@ Dupliquer le dossier Home et le nommer City, viser et adapter les vues : Enlever
 
 ### Maquette du tableau
 Utiliser les élements de tabeaux en layout Bootstrap issus de cette doc : https://getbootstrap.com/docs/4.1/content/tables/
+
+### Injection d'un modèele dans la vue liste / tableau
+
+Dans le controlleur de `City`, instancier le repository de `City`.
+Récupérer la liste des cilles, et la passer à la vue.
+
+dans la vue City/Index.cshtml, préciser le type du model de syntaxe Razor avec IEnumerable<City>, avec les directives @using et @model
+
+Itérer le bloc html <tr></tr> avec une directive @foreach
+
+Ajouter les atributs de consterction d'url sur les deux liens '<a>' (Modifer, Supprimer)

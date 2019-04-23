@@ -2,7 +2,7 @@
 using Isen.DotNet.Library;
 using Isen.DotNet.Library.Lists;
 using Isen.DotNet.Library.Models;
-using Isen.DotNet.Library.Repositories.inMemoryCityRepository;
+using Isen.DotNet.Library.Repositories.InMemory;
 using Isen.DotNet.Library.Repositories.InMemoryPersonRepository;
 using Isen.DotNet.Library.Repositories.Interfaces;
 
@@ -13,7 +13,7 @@ namespace Isen.DotNet.ConsoleApp
         static void Main(string[] args)
         {
             ICityRepository cityRepo =
-                new inMemoryCityRepository();
+                new InMemoryCityRepository();
             IPersonRepository persoRepo = 
                 new InMemoryPersonRepository(cityRepo);
 

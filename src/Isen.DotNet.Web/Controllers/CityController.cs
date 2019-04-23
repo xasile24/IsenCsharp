@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Isen.DotNet.Web.Models;
+using Isen.DotNet.Library.Repositories.Interfaces;
+using Isen.DotNet.Library.Repositories.InMemory;
 
 namespace Isen.DotNet.Web.Controllers
 {
@@ -12,7 +14,11 @@ namespace Isen.DotNet.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            ICityRepository cityRepository = 
+                new InMemoryCityRepository();
+            var list = cityRepository.GetAll();
+
+            return View(list);
         }
 
         public IActionResult Edit()
