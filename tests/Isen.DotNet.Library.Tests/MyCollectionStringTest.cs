@@ -19,13 +19,14 @@ namespace Isen.DotNet.Library.Tests
             list.Add("C");
             Assert.True(list.Count == 3);
         }
+
         [Fact]
         public void AddTest()
         {
             var list = new MyCollection<string>();
             list.Add("A");
             list.Add("B");
-            list.Add("C");
+            list.Add("C");            
             var targetArray = new string[] {"A", "B", "C"};
             Assert.Equal(targetArray, list);
         }
@@ -40,18 +41,22 @@ namespace Isen.DotNet.Library.Tests
             Assert.True(list[0] == "A");
             Assert.True(list[1] == "B");
             Assert.True(list[2] == "C");
+
+            list[0] = "Z";
+            Assert.True(list[0] == "Z");
         }
-	    [Fact]
+
+        [Fact]
         public void RemoveAtTest()
         {
             var list = new MyCollection<string>();
             list.Add("A");
             list.Add("B");
             list.Add("C");
-	        list.Add("D");
+            list.Add("D");
 
             list.RemoveAt(0);
-	        Assert.True(list.Count == 3);
+            Assert.True(list.Count == 3);
             Assert.True(list[0] == "B");
             Assert.True(list[1] == "C");
             Assert.True(list[2] == "D");
@@ -97,7 +102,9 @@ namespace Isen.DotNet.Library.Tests
                 Assert.True(
                     e is IndexOutOfRangeException);
             }
+            
         }
+    
         [Fact]
         public void IndexOfTest()
         {
@@ -105,29 +112,20 @@ namespace Isen.DotNet.Library.Tests
             list.Add("A");
             list.Add("B");
             list.Add("B");
-	        list.Add("C");
+            list.Add("C");
             Assert.True(list.IndexOf("B") == 1);
             Assert.True(list.IndexOf("A") == 0);
             Assert.True(list.IndexOf("C") == 3);
             Assert.True(list.IndexOf("Z") < 0);
-            Assert.True(list.IndexOf(null) < 0 );
-        }
-
-        [Fact]
-        public void ContainTest()
-        {
-            var list = new MyCollection<string>();
-            list.Add("A");
-            list.Add("B");
+            Assert.True(list.IndexOf(null) < 0);
 
             #pragma warning disable xUnit2017
             Assert.True(list.Contains("A"));
-            Assert.False(list.Contains("F"));
+            Assert.False(list.Contains("Z"));
             #pragma warning restore xUnit2017
-        }
+        } 
 
         [Fact]
-
         public void RemoveTest()
         {
             var list = new MyCollection<string>();
@@ -135,28 +133,28 @@ namespace Isen.DotNet.Library.Tests
             list.Add("B");
             list.Add("B");
             list.Add("C");
-
             Assert.True(list.Remove("B"));
             Assert.True(list.Count == 3);
             Assert.True(list[2] == "C");
             Assert.False(list.Remove("Z"));
-        }
+        }   
 
-
-        [Fact]
+         [Fact]
         public void InsertTest()
         {
-           var list = new MyCollection<string>();
-
-            list.Insert(0, "D"); // D
-            list.Insert(0, "B"); // B D
-            list.Insert(0, "A"); // A B D
-            list.Insert(3, "E"); // A B D E
-            list.Insert(2, "C"); // A B C D E
-
+            var list = new MyCollection<string>();
+            list.Insert(0, "C");
+            // C
+            list.Insert(0, "B");
+            // B C
+            list.Insert(0, "A");
+            // A B C
+            list.Insert(3, "D");
+            // A B C D
+            list.Insert(2, "b");
+            // A B b C D
             var targetArray = 
-                new string[] {"A", "B", "C", "D", "E"};
-
+                new string[] {"A", "B", "b", "C", "D"};
             Assert.Equal(targetArray, list);
 
             try
@@ -179,9 +177,8 @@ namespace Isen.DotNet.Library.Tests
                     e is ArgumentOutOfRangeException);
             }
         }
-
+    
         [Fact]
-
         public void EnumeratorTest()
         {
             var list = new MyCollection<string>();
@@ -194,7 +191,7 @@ namespace Isen.DotNet.Library.Tests
                 list is IEnumerable<string>);
 
             var targetArray = 
-                new string[] {"A", "B", "C", "D"};
+                new string[] { "A", "B", "C", "D" };
             foreach(var item in list)
             {
                 Assert.True(true);
@@ -205,31 +202,36 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void CopyToTest()
         {
-            var list = new MyCollection<string>();
-            list.Add("A");
-            list.Add("B");
-            list.Add("C");
-
-            var biggerArray = new string[] {"0", "1", "2", "a", "b", "c", "d"};
-            var biggerArrayExpected = new string[] {"0", "1", "2", "A", "B", "C", "d"};
+            // Notation litérale "Collection initializer"
+            // Autorisée car :
+            // - on implémente IEnumerable via IEnumerator
+            // - on a une méthode Add via IList
+            var list = new MyCollection<string>
+            { 
+                "A",
+                "B",
+                "C" 
+            };
+            var biggerArray = 
+                new string[] {"0", "1", "2", "a", "b", "c", "d"};
+            var biggerExpected = new string[] {"0", "1", "2", "A", "B", "C", "d"};
             list.CopyTo(biggerArray, 3);
-            Assert.Equal(biggerArray, biggerArrayExpected);
+            Assert.Equal(biggerArray, biggerExpected);
             
             var equalArray = new string[] {"0", "1", "2", "a", "b", "c"};
-            var equalArrayExpected = new string[] {"0", "1", "2", "A", "B", "C"};
+            var equalExpected = new string[] {"0", "1", "2", "A", "B", "C"};
             list.CopyTo(equalArray, 3);
-            Assert.Equal(equalArray, equalArrayExpected);
+            Assert.Equal(equalArray, equalExpected);
 
             var smallerArray = new string[] {"0", "1", "2", "a", "b"};
             try
             {
                 list.CopyTo(smallerArray, 3);
-
                 // Si on atteint cette ligne,
-                // c'est que la ligne au dessus n'a pas planté 
-                // alors qu'elle devait
+                // c'est que la ligne du dessus 
+                // n'a pas planté alors qu'elle
+                // devait
                 Assert.True(false);
-
             }
             catch(Exception e)
             {
@@ -237,8 +239,5 @@ namespace Isen.DotNet.Library.Tests
             }
 
         }
-
     }
-
-
 }

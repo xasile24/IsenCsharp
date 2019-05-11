@@ -1,31 +1,39 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Isen.DotNet.Library.Models
 {
     public class Person : BaseModel<Person>
     {
         public override int Id { get;set; }
-        public override string Name 
-        { 
+        [NotMapped]
+        public override string Name
+        {
             get { return _name ?? 
-                (_name = $"{FirstName} {LastName}");
-                }
+                (_name = $"{LastName} {FirstName}"); }
             set { _name = value; }
         }
 
         private string _name;
-        public string FirstName { get;set; }
-        public string LastName { get;set; }
-        public DateTime? DateOfBirth { get;set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        
+        // Relation réciproque de 
+        // City.PersonCollection (List<Person>)
         public City BornIn { get;set; }
+        // Clé étrangère du champ BornIn (donc l'id
+        // de la ville)
+        public int? BornInId { get;set; }
 
-        public int? Age 
-        { 
-            get 
-            {
-                if(!DateOfBirth.HasValue)
+        [NotMapped]
+        public int? Age
+        {
+            get
+            { 
+                if (!DateOfBirth.HasValue)
                     return null;
-
                 var age = 
                     DateTime.Now - DateOfBirth.Value;
                 return (int)Math.Floor(
@@ -33,33 +41,15 @@ namespace Isen.DotNet.Library.Models
             }
         }
 
-        /*/public Person(
-            string firstName,
-            string lastName,
-            DateTime dateOfBirth) :
-            this(firstName, lastName)
-        {
-            DateOfBirth = dateOfBirth;
-        }*/
-        /*
-        public Person(
-            string firstName,
-            string lastName)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-        } */
-
-        public Person(){ }
-
+        [NotMapped]
         public override string Display
         {
             get
             {
-                var sAge = Age.HasValue ? 
+                var sAge = Age.HasValue ?
                     Age.ToString() : 
                     "undef";
-                var display = $"{base.Display} | Age={sAge} | City={BornIn}";
+                var display = $"{base.Display}|Age={sAge}|City={BornIn}";
                 return display;
             }
         }
@@ -71,6 +61,17 @@ namespace Isen.DotNet.Library.Models
             LastName = copy.LastName;
             DateOfBirth = copy.DateOfBirth;
             BornIn = copy.BornIn;
+        }
+
+        public override dynamic ToDynamic()
+        {
+            var baseDynamic = base.ToDynamic();
+            baseDynamic.first = FirstName;
+            baseDynamic.last = LastName;
+            baseDynamic.birth = DateOfBirth;
+            baseDynamic.age = Age;
+            baseDynamic.bornIn = BornIn?.ToDynamic();
+            return baseDynamic;
         }
     }
 }

@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Isen.DotNet.Library.Context;
+using Isen.DotNet.Library.Repositories.Db;
+using Isen.DotNet.Library.Repositories.InMemory;
+using Isen.DotNet.Library.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,15 +29,32 @@ namespace Isen.DotNet.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // RGPD / Cookies
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Injecter EF + Sqlite
+            services.AddDbContext<ApplicationDbContext>(builder => 
+                // Dans les params d'option, préciser que la db est Sqlite
+                builder.UseSqlite(
+                    // Préciser où trouver la chaine de connexion
+                    Configuration.GetConnectionString("DefaultConnection"))
+                );
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // Injecter le middleware ASP.NET Core MVC v2.2
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // Mapping des interfaces de repo avec leur repo concret
+            // Injection de dépendance
+            services.AddScoped<ICityRepository, DbContextCityRepository>();
+            services.AddScoped<IPersonRepository, DbContextPersonRepository>();
+            // Mapping du SeedData
+            services.AddScoped<SeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

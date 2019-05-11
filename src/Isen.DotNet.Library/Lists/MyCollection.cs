@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Isen.DotNet.Library.Lists
-{
+{    
     public class MyCollection<T> : IList<T>
     {
         private T[] _values;
@@ -13,67 +13,69 @@ namespace Isen.DotNet.Library.Lists
             _values = new T[0];
         }
 
+        /// <summary>
+        /// Taille de la liste
+        /// </summary>
+        public int Count => _values.Length;
 
         /// <summary>
-        ///Taille de la liste
-        ///</summary>
-        public int Count => _values.Length;
+        /// Accès aux valeurs de la liste
+        /// </summary>
         protected T[] Values => _values;
 
-        public bool IsReadOnly => false;
-
+        /// <summary>
+        /// Accesseur indexeur
+        /// </summary>
+        /// <value></value>
         public T this[int index]
         {
             get { return _values[index]; }
             set { _values[index] = value; }
         }
 
-
         /// <summary>
-        ///Ajoute un élément à la fin de la liste
-        ///</summary>
-        ///<param name="item"></param>
+        /// Ajoute un élément à la fin de la liste
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(T item)
         {
-            //Nouveau tableau
-            var temp = new T[Count + 1];
-            //Copier les elements du tableau initial
-            for(var i = 0; i< Count; i++)
+            // Nouveau tableau de taille + 1
+            var tmp = new T[Count + 1];
+            // Copier les éléments du tableau initial
+            for (var i = 0 ; i < Count ; i++)
             {
-                temp[i] = _values[i];
+                tmp[i] = _values[i];
             }
-            //Ajouter le nouvel element
-            temp[Count] = item;
-            //Echanger les tableaux
-            _values = temp;
+            // Ajouter le nouvel élément
+            tmp[Count] = item;
+            // Echanger les tableaux
+            _values = tmp;
         }
 
         public void RemoveAt(int index)
         {
-            if( Values?.Length == 0 
-            || index > Count 
-            || index < 0 )
+            if (Values?.Length == 0 
+                || index > Count 
+                || index < 0)
                 throw new IndexOutOfRangeException();
 
-            //nouveau tableau
             var tmp = new T[Count - 1];
-
-            //copier les elements du tableau initial
             for (var i = 0 ; i < tmp.Length ; i++)
             {
-                if (i < index) tmp[i] = _values[i];
-                else if (i >= index) tmp[i] = Values[i+1];
+                tmp[i] = _values[i < index ? i : i + 1];
             }
-            //echanger les tableaux
             _values = tmp;
         }
+
+        public bool IsReadOnly => false;
 
         public int IndexOf(T item)
         {
             var index = -1;
-            for ( var i = 0 ; i < Count ; i++)
+            for (var i = 0 ; i < Count ; i++)
             {
-                if (this[i].Equals(item)) {
+                if (this[i].Equals(item))
+                {
                     index = i;
                     break;
                 }
@@ -83,19 +85,19 @@ namespace Isen.DotNet.Library.Lists
 
         public void Insert(int index, T item)
         {
-            if( index > Count
-            || index < 0 )
+            if (index > Count || index < 0)
                 throw new ArgumentOutOfRangeException();
 
+            // Nouveau tableau de taille + 1
             var tmp = new T[Count + 1];
-
-            for(var i = 0 ; i < Count+1 ; i++) 
+            // Copier les éléments du tableau initial
+            for (var i = 0 ; i < tmp.Length ; i++)
             {
-                if(i == index) tmp[i] = item;
-                else if(i > index) tmp[i] = Values[i-1];
-                else if(i < index) tmp[i] = _values[i];
+                if (i < index) tmp[i] = _values[i];
+                else if (i == index) tmp[i] = item;
+                else tmp[i] = _values[i - 1];                
             }
-
+            // Echanger les tableaux
             _values = tmp;
         }
 
@@ -104,16 +106,18 @@ namespace Isen.DotNet.Library.Lists
             _values = new T[0];
         }
 
-        public bool Contains(T item) =>
+        public bool Contains(T item) => 
             IndexOf(item) >= 0;
 
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(
+            T[] array, 
+            int arrayIndex)
         {
-            if(array == null) throw new ArgumentNullException();
-            if(arrayIndex < 0) throw new ArgumentOutOfRangeException();
-            if(Count + arrayIndex > array.Length) throw new ArgumentException();
-
-            for(var i = 0 ; i < Count; i++)
+            if (array == null) throw new ArgumentNullException();
+            if (arrayIndex < 0) throw new ArgumentOutOfRangeException();
+            if (Count + arrayIndex > array.Length) throw new ArgumentException();
+            
+            for(var i = 0; i < Count ; i++)
             {
                 array[arrayIndex + i] = this[i];
             }
@@ -128,15 +132,15 @@ namespace Isen.DotNet.Library.Lists
             return true;
         }
 
-        public IEnumerator<T> GetEnumerator() //version typé
+        public IEnumerator<T> GetEnumerator()
         {
-            for(var i = 0 ; i < Count ; i++)
+            for (var i = 0 ; i < Count ; i++)
             {
                 yield return this[i];
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() =>  //version non typé
+        IEnumerator IEnumerable.GetEnumerator() =>
             GetEnumerator();
     }
 }

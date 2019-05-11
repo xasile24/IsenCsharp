@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Isen.DotNet.Library;
 using Isen.DotNet.Library.Lists;
 using Isen.DotNet.Library.Models;
@@ -11,20 +12,21 @@ namespace Isen.DotNet.ConsoleApp
     {
         static void Main(string[] args)
         {
-            /*ICityRepository cityRepo =
+            ICityRepository cityRepo = 
                 new InMemoryCityRepository();
-            IPersonRepository persoRepo = 
-                new InMemoryPersonRepository(cityRepo);*/
-            IClubRepository clubRepo = 
-                new InMemoryClubRepository();
+            IPersonRepository personRepo = 
+                new InMemoryPersonRepository(cityRepo);
 
-            foreach(var p in clubRepo.Context)
+            foreach(var p in personRepo.Context)
                 Console.WriteLine(p);
-            
-            /*var toulon = cityRepo.Single("Toulon");
+
+            var toulon = cityRepo.Single("Toulon");
             toulon.Name = "New York";
             cityRepo.Update(toulon);
-            cityRepo.SaveChanges();*/
+            cityRepo.SaveChanges();
+
+            foreach(var p in personRepo.Context)
+                Console.WriteLine(p);
         }
     }
 }

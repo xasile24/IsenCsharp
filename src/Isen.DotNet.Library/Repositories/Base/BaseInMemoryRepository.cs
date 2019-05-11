@@ -6,58 +6,49 @@ using Isen.DotNet.Library.Repositories.Interfaces;
 
 namespace Isen.DotNet.Library.Repositories.Base
 {
-    public abstract class BaseInMemoryRepository<T>:
+    public abstract class BaseInMemoryRepository<T> :
         IBaseRepository<T>
-        where T : BaseModel<T>      // Au moins un BaseModel
+        where T : BaseModel<T>
     {
-        protected List<T> _context;
+        protected List<T> _context; 
         public virtual IQueryable<T> Context
         {
             get
             {
                 if (_context != null) return _context.AsQueryable();
-                _context= SampleData;
+                _context = SampleData;
                 return _context.AsQueryable();
             }
         }
 
-        public abstract List<T> SampleData { get; }
+        protected List<T> _contextTemp; 
+        protected List<T> ContextTemp => 
+            _contextTemp ??
+                (_contextTemp = Context.ToList());
 
-        public int NewId() =>
-            Context.Max(c => c.Id) + 1;
-
-        public T Single(int id) =>
-            Context.SingleOrDefault(c => c.Id == id); 
-            //Renvoie null si il y en a pas, lève un expression si il y en a plusieurs
-    
-        public T Single(string name) =>
-            Context.FirstOrDefault(c => c.Name.Equals(name)); 
-            //Renvoie null si il y en a pas, renvoie le Premier si il y en a plusieurs
-
-        public void Delete(int id)
+        public void SaveChanges()
         {
-            var entityToDelete = Single(id);
-            if(entityToDelete == null) return ;
-            ContextTemp.Remove(entityToDelete);
+            _context = _contextTemp;
+            _contextTemp = null;
         }
 
-        public void Delete(T entity) =>
-            Delete(entity.Id);
+        public abstract List<T> SampleData { get; }
 
-        public IEnumerable<T> GetAll() => 
-            Context;
+        public int NewId() => 
+            Context.Max(c => c.Id) + 1;
 
-        public IEnumerable<T> Find(
-            Func<T, bool> predicate) =>
-            Context.Where(predicate);
-
+        public T Single(int id) => 
+            Context.SingleOrDefault(c => c.Id == id);
+        public T Single(string name) => 
+            Context.FirstOrDefault(c => c.Name.Equals(name));
+        
         public void Update(T entity)
         {
             if (entity == null) return;
-
+            
             var copy = ContextTemp;
 
-            if (entity.isNew())
+            if (entity.IsNew)
             {
                 entity.Id = NewId();
                 ContextTemp.Add(entity);
@@ -69,15 +60,20 @@ namespace Isen.DotNet.Library.Repositories.Base
             }
         }
 
-        protected List<T> _contextTemp;
-        protected List<T> ContextTemp =>
-            _contextTemp ?? 
-                    (_contextTemp = Context.ToList());
-
-        public void SaveChanges()
+        public void Delete(int id)
         {
-            _context = _contextTemp;
-            _contextTemp = null;
+            var entityToDelete = Single(id);
+            if (entityToDelete == null) return;
+            ContextTemp.Remove(entityToDelete);
         }
+        public void Delete(T entity) => 
+            Delete(entity.Id);    
+
+        public IEnumerable<T> GetAll() => 
+            Context;    
+
+        public IEnumerable<T> Find(
+            Func<T, bool> predicate) => 
+            Context.Where(predicate);
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Isen.DotNet.Library
 {
@@ -8,16 +8,16 @@ namespace Isen.DotNet.Library
     public class Hello
     {
         /// <summary>
-        /// Nom de la personne(accesseur implicite - auto property)
+        /// Nom de la personne (accesseur implicite - auto-property)
         /// </summary>
         /// <value></value>
         public string Name { get; set; } = "World";
-        
+
         /// <summary>
         /// L'heure du point de vue du runtime de cette classe
         /// </summary>
-        public DateTime ServerTime => DateTime.Now;// syntaxe 'expression body'
-
+        public DateTime ServerTime => DateTime.Now; // syntaxe 'expression body'
+ 
         /// <summary>
         /// Constructeur avec param
         /// </summary>
@@ -35,9 +35,8 @@ namespace Isen.DotNet.Library
         {
             var serverTimeFormatted = 
                 ServerTime.ToShortTimeString();
-            var message = $"Hello, {Name} [{serverTimeFormatted}]";
+            var message = $"Hello, {Name} [{serverTimeFormatted}]"; 
             return message;
         }
-
     }
 }

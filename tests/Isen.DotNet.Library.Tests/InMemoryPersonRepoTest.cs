@@ -1,45 +1,45 @@
 using System;
 using Xunit;
-using System.Linq;
 using Isen.DotNet.Library.Lists;
 using System.Collections.Generic;
-using Isen.DotNet.Library.Repositories.InMemoryPersonRepository;
+using Isen.DotNet.Library.Repositories.InMemory;
+using System.Linq;
 using Isen.DotNet.Library.Models;
 using Isen.DotNet.Library.Repositories.Interfaces;
-using Isen.DotNet.Library.Repositories.inMemoryCityRepository;
 
 namespace Isen.DotNet.Library.Tests
 {
+    public class PersonRepoFactory
+    {
+        public static IPersonRepository Create(
+            ICityRepository cityRepository = null) =>
+                new InMemoryPersonRepository(cityRepository ?? 
+                    new InMemoryCityRepository());           
+    }
+
     public class InMemoryPersonRepoTest
     {
-        public class PersonRepoFactory
-        {
-            public static IPersonRepository Create(
-                ICityRepository cityRepository = null) =>
-                    new InMemoryPersonRepository(cityRepository ??
-                    new inMemoryCityRepository());
-        }
-
         [Fact]
         public void SingleById()
         {
             var personRepo = PersonRepoFactory.Create();
+            
             var person1 = personRepo.Single(1);
             Assert.True(person1.Id == 1);
 
-            var noperson = personRepo.Single(42);
-            Assert.True(noperson == null);
-
+            var noPerson = personRepo.Single(42);
+            Assert.True(noPerson == null);      
         }
 
         [Fact]
         public void SingleByName()
         {
             var personRepo = PersonRepoFactory.Create();
-            var jhon = personRepo.Single("Jhon Doe");
-            Assert.True(jhon.Name.Equals("Jhon Doe"));
 
-            var fake = personRepo.Single("Ongle pomme");
+            var miles = personRepo.Single("DAVIS Miles");
+            Assert.True(miles.Name == "DAVIS Miles");
+
+            var fake = personRepo.Single("Fake");
             Assert.True(fake == null);
         }
 
@@ -50,18 +50,23 @@ namespace Isen.DotNet.Library.Tests
             var initialCount = personRepo.Context
                 .ToList()
                 .Count();
-            var jhon = personRepo.Single("Jhon Doe");
-            jhon.Name = "Jhon Cena";
-            personRepo.Update(jhon);
+                
+            var miles = personRepo.Single("DAVIS Miles");
+            miles.LastName = "DAVIS Jr.";
+            miles.DateOfBirth = new DateTime(1980, 1, 2);
+
+            personRepo.Update(miles);
             personRepo.SaveChanges();
-            var finalCount = personRepo.Context
+
+            var FinalCount = personRepo.Context
                 .ToList()
                 .Count();
 
-            var jhonUpdated = personRepo.Single(jhon.Id);
-            Assert.True(jhonUpdated.Name == "Jhon Cena");
-            //Assert.True(jhonUpdated.ZipCode == "83200");
-            Assert.True(initialCount == finalCount);
+            var milesUpdated = 
+                personRepo.Single(miles.Id);
+            Assert.True(milesUpdated.LastName == "DAVIS Jr.");
+            Assert.True(milesUpdated.DateOfBirth == new DateTime(1980, 1, 2));
+            Assert.True(initialCount == FinalCount);
         }
 
         [Fact]
@@ -71,23 +76,26 @@ namespace Isen.DotNet.Library.Tests
             var initialCount = personRepo.Context
                 .ToList()
                 .Count();
-            var gap = new Person()
+
+            var parker = new Person() 
             {
-                FirstName = "Test",
-                LastName = "Person",
-                DateOfBirth = new DateTime(1994, 11, 8),
+                FirstName = "Charlie",
+                LastName = "PARKER",
+                Name = "PARKER Charlie",
+                DateOfBirth = new DateTime(1920, 8, 29)
             };
-            personRepo.Update(gap);
+            personRepo.Update(parker);
             personRepo.SaveChanges();
-            var finalCount = personRepo.Context
+
+            var FinalCount = personRepo.Context
                 .ToList()
                 .Count();
-            Assert.True(initialCount == finalCount-1);
+            Assert.True(initialCount == FinalCount - 1);
 
-            var gapCreated = personRepo.Single("Test Person");
-            Assert.True(gapCreated != null);
-            //Assert.True(gapCreated.ZipCode == "05000");
-            Assert.True(!gapCreated.isNew());
+            var parkerCreated = personRepo.Single("PARKER Charlie");
+            Assert.True(parkerCreated != null);
+            Assert.True(parkerCreated.Name == "PARKER Charlie");
+            Assert.True(!parkerCreated.IsNew);
         }
 
         [Fact]
@@ -97,18 +105,17 @@ namespace Isen.DotNet.Library.Tests
             var initialCount = personRepo.Context
                 .ToList()
                 .Count();
-            
-            var jhon = personRepo.Single("Jhon Doe");
-            personRepo.Delete(jhon);
-            personRepo.SaveChanges();
 
+            var miles = personRepo.Single("DAVIS Miles");
+            personRepo.Delete(miles);
+            personRepo.SaveChanges();
             var finalCount = personRepo.Context
                 .ToList()
                 .Count();
 
-            Assert.True(initialCount == finalCount+1);
-            Assert.True(personRepo.Single("Jhon Doe") == null);
-        }   
+            Assert.True(finalCount == initialCount - 1);
+            Assert.True(personRepo.Single("DAVIS Miles") == null);
+        }
 
         [Fact]
         public void GetAll()
@@ -117,9 +124,12 @@ namespace Isen.DotNet.Library.Tests
             var contextCount = personRepo.Context
                 .ToList()
                 .Count();
-            var getAllCount = personRepo.GetAll()
-            .ToList()
-            .Count();
+            
+            var getAllCount = personRepo
+                .GetAll()
+                .ToList()
+                .Count();
+
             Assert.True(contextCount == getAllCount);
         }
 
@@ -131,27 +141,26 @@ namespace Isen.DotNet.Library.Tests
                 .Find(c => c.Name.Contains("e"));
             var result = query.ToList();
 
-            var countPersonsFromQuery = 0;
-            foreach(var c in personRepo.Context)
+            var countCitiesFromQuery = 0;
+            foreach(var c in personRepo.Context.ToList())
             {
-                if(c.Name.Contains("e")) countPersonsFromQuery++;
+                if(c.Name.Contains("e"))
+                    countCitiesFromQuery++;
             }
-
-            Assert.True(result.Count == countPersonsFromQuery);
+            Assert.True(result.Count == countCitiesFromQuery);
         }
 
         [Fact]
         public void DiTest()
         {
-            ICityRepository cityRepo = new inMemoryCityRepository();
+            ICityRepository cityRepo = new InMemoryCityRepository();
             var personRepo = PersonRepoFactory.Create(cityRepo);
 
             Assert.True(
                 personRepo
-                    .Single("Jhon Doe")?.BornIn?.Name == "Toulon");
-
+                    .Single("DAVIS Miles")?.BornIn?.Name == "Toulon");
             var cityId = personRepo
-                .Single("Jhon Doe")?.BornIn?.Id;
+                    .Single("DAVIS Miles")?.BornIn?.Id;
             var toulon = cityRepo.Single("Toulon");
             toulon.Name = "New York";
             cityRepo.Update(toulon);
@@ -159,9 +168,10 @@ namespace Isen.DotNet.Library.Tests
 
             Assert.True(
                 personRepo
-                    .Single("Jhon Doe")?.BornIn?.Name == "New York");
+                    .Single("DAVIS Miles")?.BornIn?.Name == "New York");
             var updatedCityId = personRepo
-                .Single("Jhon Doe")?.BornIn?.Id;
+                    .Single("DAVIS Miles")?.BornIn?.Id;
+
             Assert.True(cityId == updatedCityId);
         }
     }

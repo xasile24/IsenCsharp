@@ -19,13 +19,14 @@ namespace Isen.DotNet.Library.Tests
             list.Add('C');
             Assert.True(list.Count == 3);
         }
+
         [Fact]
         public void AddTest()
         {
             var list = new MyCollection<char>();
             list.Add('A');
             list.Add('B');
-            list.Add('C');
+            list.Add('C');            
             var targetArray = new char[] {'A', 'B', 'C'};
             Assert.Equal(targetArray, list);
         }
@@ -36,22 +37,26 @@ namespace Isen.DotNet.Library.Tests
             var list = new MyCollection<char>();
             list.Add('A');
             list.Add('B');
-            list.Add('C');
+            list.Add('C'); 
             Assert.True(list[0] == 'A');
             Assert.True(list[1] == 'B');
             Assert.True(list[2] == 'C');
+
+            list[0] = 'Z';
+            Assert.True(list[0] == 'Z');
         }
-	    [Fact]
+
+        [Fact]
         public void RemoveAtTest()
         {
             var list = new MyCollection<char>();
             list.Add('A');
             list.Add('B');
-            list.Add('C');
-	        list.Add('D');
+            list.Add('C'); 
+            list.Add('D');
 
             list.RemoveAt(0);
-	        Assert.True(list.Count == 3);
+            Assert.True(list.Count == 3);
             Assert.True(list[0] == 'B');
             Assert.True(list[1] == 'C');
             Assert.True(list[2] == 'D');
@@ -97,37 +102,29 @@ namespace Isen.DotNet.Library.Tests
                 Assert.True(
                     e is IndexOutOfRangeException);
             }
+            
         }
-
-        [Fact]
+    
+         [Fact]
         public void IndexOfTest()
         {
             var list = new MyCollection<char>();
             list.Add('A');
             list.Add('B');
             list.Add('B');
-	        list.Add('C');
+            list.Add('C');
             Assert.True(list.IndexOf('B') == 1);
             Assert.True(list.IndexOf('A') == 0);
             Assert.True(list.IndexOf('C') == 3);
             Assert.True(list.IndexOf('Z') < 0);
-        }
 
-        [Fact]
-        public void ContainTest()
-        {
-            var list = new MyCollection<char>();
-            list.Add('A');
-            list.Add('B');
-            
             #pragma warning disable xUnit2017
             Assert.True(list.Contains('A'));
-            Assert.False(list.Contains('F'));
+            Assert.False(list.Contains('Z'));
             #pragma warning restore xUnit2017
-        }
+        } 
 
         [Fact]
-
         public void RemoveTest()
         {
             var list = new MyCollection<char>();
@@ -135,7 +132,6 @@ namespace Isen.DotNet.Library.Tests
             list.Add('B');
             list.Add('B');
             list.Add('C');
-
             Assert.True(list.Remove('B'));
             Assert.True(list.Count == 3);
             Assert.True(list[2] == 'C');
@@ -145,17 +141,19 @@ namespace Isen.DotNet.Library.Tests
         [Fact]
         public void InsertTest()
         {
-           var list = new MyCollection<char>();
-
-            list.Insert(0, 'D'); // D
-            list.Insert(0, 'B'); // B D
-            list.Insert(0, 'A'); // A B D
-            list.Insert(3, 'E'); // A B D E
-            list.Insert(2, 'C'); // A B C D E
-
+            var list = new MyCollection<char>();
+            list.Insert(0, 'C');
+            // C
+            list.Insert(0, 'B');
+            // B C
+            list.Insert(0, 'A');
+            // A B C
+            list.Insert(3, 'D');
+            // A B C D
+            list.Insert(2, 'b');
+            // A B b C D
             var targetArray = 
-                new char[] {'A', 'B', 'C', 'D', 'E'};
-
+                new char[] {'A', 'B', 'b', 'C', 'D'};
             Assert.Equal(targetArray, list);
 
             try
@@ -180,7 +178,6 @@ namespace Isen.DotNet.Library.Tests
         }
 
         [Fact]
-
         public void EnumeratorTest()
         {
             var list = new MyCollection<char>();
@@ -193,49 +190,12 @@ namespace Isen.DotNet.Library.Tests
                 list is IEnumerable<char>);
 
             var targetArray = 
-                new char[] {'A', 'B', 'C', 'D'};
+                new char[] { 'A', 'B', 'C', 'D' };
             foreach(var item in list)
             {
                 Assert.True(true);
             }
             Assert.Equal(targetArray, list);
-        }
-
-        [Fact]
-
-        public void CopyToTest()
-        {
-            var list = new MyCollection<char>();
-            list.Add('A');
-            list.Add('B');
-            list.Add('C');
-
-            var biggerArray = new char[] {'0', '1', '2', 'a', 'b', 'c', 'd'};
-            var biggerArrayExpected = new char[] {'0', '1', '2', 'A', 'B', 'C', 'd'};
-            list.CopyTo(biggerArray, 3);
-            Assert.Equal(biggerArray, biggerArrayExpected);
-            
-            var equalArray = new char[] {'0', '1', '2', 'a', 'b', 'c'};
-            var equalArrayExpected = new char[] {'0', '1', '2', 'A', 'B', 'C'};
-            list.CopyTo(equalArray, 3);
-            Assert.Equal(equalArray, equalArrayExpected);
-
-            var smallerArray = new char[] {'0', '1', '2', 'a', 'b'};
-            try
-            {
-                list.CopyTo(smallerArray, 3);
-
-                // Si on atteint cette ligne,
-                // c'est que la ligne au dessus n'a pas planté 
-                // alors qu'elle devait
-                Assert.True(false);
-
-            }
-            catch(Exception e)
-            {
-                Assert.True(e is ArgumentException);
-            }
-
         }
     }
 }

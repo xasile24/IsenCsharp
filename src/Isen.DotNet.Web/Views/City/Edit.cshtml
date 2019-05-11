@@ -6,30 +6,39 @@
 <h1>Edition d'une ville (formulaire)</h1>
 
 <div class="row">
-    <div class ="col-12">
-        <form class="form-group">
+    <div class="col-12">
+        
+        <form class="form-group" asp-action="Edit">
+            
+            <input type="hidden" 
+                   asp-for="Id"
+                   value="@Model?.Id" />
+
             <div class="form-group">
                 <label for="cityName">Nom de la ville</label>
-                <input 
-                    id="cityName"
-                    type="text" 
-                    class="form-control" 
-                    placeholder="City Name"
-                    value="@Model?.Name" />
+                <input id="cityName"
+                       type="text"
+                       class="form-control"
+                       placeholder="City name"
+                       asp-for="Name"
+                       value="@Model?.Name" />
             </div>
+            
             <div class="form-group">
-                <label for="cityZipCode">Code Postal</label>
-                <input 
-                    id="cityZipCode"
-                    type="text"
-                    class="form-control" 
-                    placeholder="City ZipCode" 
-                    value="@Model?.ZipCode"/>
+                <label for="cityZipCode">Code postal</label>
+                <input id="cityZipCode"
+                       type="text"
+                       class="form-control"
+                       placeholder="Zip code"
+                       asp-for="ZipCode"
+                       value="@Model?.ZipCode" />
             </div>
+
             <button type="submit" class="btn btn-primary">Valider</button>
-            <button class="btn btn-danger"
-            asp-controller="City"
-            asp-action="Index">Annuler</button>
+            <a class="btn btn-secondary"
+               asp-controller="City" asp-action="Index">Annuler</a>
+
         </form>
+
     </div>
 </div>
