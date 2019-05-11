@@ -3,7 +3,6 @@ using Isen.DotNet.Library;
 using Isen.DotNet.Library.Lists;
 using Isen.DotNet.Library.Models;
 using Isen.DotNet.Library.Repositories.InMemory;
-using Isen.DotNet.Library.Repositories.InMemoryPersonRepository;
 using Isen.DotNet.Library.Repositories.Interfaces;
 
 namespace Isen.DotNet.ConsoleApp
@@ -12,21 +11,20 @@ namespace Isen.DotNet.ConsoleApp
     {
         static void Main(string[] args)
         {
-            ICityRepository cityRepo =
+            /*ICityRepository cityRepo =
                 new InMemoryCityRepository();
             IPersonRepository persoRepo = 
-                new InMemoryPersonRepository(cityRepo);
+                new InMemoryPersonRepository(cityRepo);*/
+            IClubRepository clubRepo = 
+                new InMemoryClubRepository();
 
-            foreach(var p in persoRepo.Context)
+            foreach(var p in clubRepo.Context)
                 Console.WriteLine(p);
             
-            var toulon = cityRepo.Single("Toulon");
+            /*var toulon = cityRepo.Single("Toulon");
             toulon.Name = "New York";
             cityRepo.Update(toulon);
-            cityRepo.SaveChanges();
-
-            foreach(var p in persoRepo.Context)
-                Console.WriteLine(p);
+            cityRepo.SaveChanges();*/
         }
     }
 }
