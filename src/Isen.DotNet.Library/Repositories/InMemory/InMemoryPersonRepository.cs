@@ -41,7 +41,7 @@ namespace Isen.DotNet.Library.Repositories.InMemory
                     LastName = "EVANS", 
                     Name = "EVANS Bill",
                     DateOfBirth = new DateTime(1929,8, 16),
-                    BornIn = _cityRepository.Single("Nice")
+                    BornIn = _cityRepository.Single("Toulon")
                 },
                 new Person()
                 { 

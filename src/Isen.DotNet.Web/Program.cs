@@ -25,6 +25,9 @@ namespace Isen.DotNet.Web
                 seed.DropCreateDatabase();
                 seed.AddCities();
                 seed.AddPersons();
+                seed.AddClubs();
+                seed.AddPlayers();
+                seed.AddHistorics();
             }
             
             host.Run();

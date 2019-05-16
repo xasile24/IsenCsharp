@@ -12,21 +12,33 @@ namespace Isen.DotNet.ConsoleApp
     {
         static void Main(string[] args)
         {
-            ICityRepository cityRepo = 
-                new InMemoryCityRepository();
-            IPersonRepository personRepo = 
-                new InMemoryPersonRepository(cityRepo);
+            
+            IClubRepository clubRepo = 
+                new InMemoryClubRepository();
+            IPlayerRepository playerRepo = 
+                new InMemoryPlayerRepository(clubRepo);
+            IHistoricRepository historicRepo = 
+                new InMemoryHistoricRepository(clubRepo, playerRepo); 
 
-            foreach(var p in personRepo.Context)
+
+            /* 
+            foreach(var p in playerRepo.Context)
                 Console.WriteLine(p);
 
-            var toulon = cityRepo.Single("Toulon");
+            foreach(var h in historicRepo.Context)
+                Console.WriteLine(h);*/
+
+            /*
+            Player playerTest = playerRepo.Single(1);
+            List<Historic> listH = playerTest.HistoricCollection;*/
+
+            /*var toulon = clubRepo.Single("Toulon");
             toulon.Name = "New York";
-            cityRepo.Update(toulon);
-            cityRepo.SaveChanges();
+            clubRepo.Update(toulon);
+            clubRepo.SaveChanges();
 
-            foreach(var p in personRepo.Context)
-                Console.WriteLine(p);
+            foreach(var p in playerRepo.Context)
+                Console.WriteLine(p);*/
         }
     }
 }

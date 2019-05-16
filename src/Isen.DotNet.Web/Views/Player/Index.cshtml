@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Toutes les joueuses";
+}
+@using Isen.DotNet.Library.Models
+@using Isen.DotNet.Library.Repositories.Interfaces
+@model IEnumerable<Player>
+@inject IHistoricRepository _historicRepository
+
+<h1>Toutes les joueuses</h1>
+
+<table class="table table-striped">
+  <thead>
+      <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Date de naissance</th>
+          <th scope="col">Age</th>
+          <th scope="col">Historique</th>
+          <th>Action...</th>
+      </tr>
+  </thead>
+  <tbody>
+    @foreach(var player in Model)
+    { 
+        var dateString = player.DateOfBirth.HasValue ?
+            player.DateOfBirth.Value.ToShortDateString() :
+            "";
+
+        IEnumerable<Historic> historicRepository = _historicRepository.GetAll();
+
+      <tr>
+          <th scope="row">@player.Id</th>
+          <td>@player.LastName</td>
+          <td>@player.FirstName</td>
+          <td>@dateString</td>
+          <td>@player.Age an(s)</td>
+          <td>
+            @foreach (var histo in historicRepository)
+            {
+                @if(histo.HPlayerId == @player.Id)
+                {
+                    <p>@histo</p>
+                }
+            }
+          </td>
+          <td>
+              <a class="btn btn-outline-primary"
+                 asp-controller="Player"
+                 asp-action="Edit"
+                 asp-route-id="@player.Id">Modifier</a>
+              <a class="btn btn-outline-danger"
+                 asp-controller="Player"
+                 asp-action="Delete"
+                 asp-route-id="@player.Id">Supprimer</a>
+          </td>
+      </tr>
+     }
+  </tbody>
+</table>

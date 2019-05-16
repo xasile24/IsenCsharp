@@ -1,18 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Edition d'une personne";
+@{
+    ViewData["Title"] = "Edition d'une joueuse";
 }
 @using Isen.DotNet.Library.Models
-@using Isen.DotNet.Library.Repositories.Interfaces
-@model Person
-@inject ICityRepository _cityRepository
-<h1>Edition d'une personne</h1>
+@model Player
+<h1>Edition d'une joueuse (formulaire)</h1>
 
 <div class="row">
     <div class="col-12">
         
         <form class="form-group" asp-action="Edit">
-
-            <input type="hidden"
+            
+            <input type="hidden" 
                    asp-for="Id"
                    value="@Model?.Id" />
 
@@ -51,30 +49,10 @@
                        asp-for="DateOfBirth"
                        value="@dateString" />
             </div>
-            
-            <div class="form-group">
-                <label for="BornIn">Ville de naissance</label>
-                @Html.DropDownListFor(
-                    // Quel champ du modèle (Person) est concerné
-                    p => p.BornInId,
-                    // Création d'une liste
-                    new SelectList(
-                        // Données de la liste
-                        _cityRepository.GetAll(),
-                        // Champ correspondant à l'id
-                        "Id",
-                        // Champ correspondant au texte affiché
-                        "Name"),
-                    // Item par défaut
-                    "Sélectionnez une ville...",
-                    // Ckasse CSS
-                    new { @class = "form-control" }
-                    )
-            </div>
 
             <button type="submit" class="btn btn-primary">Valider</button>
             <a class="btn btn-secondary"
-               asp-controller="Person" asp-action="Index">Annuler</a>
+               asp-controller="Player" asp-action="Index">Annuler</a>
 
         </form>
 

@@ -52,7 +52,10 @@ namespace Isen.DotNet.Web
             // Mapping des interfaces de repo avec leur repo concret
             // Injection de dépendance
             services.AddScoped<ICityRepository, DbContextCityRepository>();
+            services.AddScoped<IClubRepository, DbContextClubRepository>();
             services.AddScoped<IPersonRepository, DbContextPersonRepository>();
+            services.AddScoped<IPlayerRepository, DbContextPlayerRepository>();
+            services.AddScoped<IHistoricRepository, DbContextHistoricRepository>();
             // Mapping du SeedData
             services.AddScoped<SeedData>();
         }
@@ -81,6 +84,6 @@ namespace Isen.DotNet.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        }
+        } 
     }
 }

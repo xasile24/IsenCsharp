@@ -13,15 +13,24 @@ namespace Isen.DotNet.Library.Context
         private readonly ApplicationDbContext _dbContext;
         private readonly ICityRepository _cityRepository;
         private readonly IPersonRepository _personRepository;
+        private readonly IClubRepository _clubRepository;
+        private readonly IPlayerRepository _playerRepository;
+        private readonly IHistoricRepository _historicRepository;
 
         public SeedData(
             ApplicationDbContext dbContext,
             ICityRepository cityRepository,
-            IPersonRepository personRepository)
+            IPersonRepository personRepository,
+            IClubRepository clubRepository,
+            IPlayerRepository playerRepository,
+            IHistoricRepository historicRepository)
         {
             _dbContext = dbContext;
             _cityRepository = cityRepository;
             _personRepository = personRepository;
+            _clubRepository = clubRepository;
+            _playerRepository = playerRepository;
+            _historicRepository = historicRepository;
         }
 
         public void DropCreateDatabase()
@@ -77,6 +86,82 @@ namespace Isen.DotNet.Library.Context
             };
             persons.ForEach(city => _personRepository.Update(city));
             _personRepository.SaveChanges();
+        }
+        public void AddClubs()
+        {
+            if (_dbContext.ClubCollection.Any()) return;
+
+            var clubs = new List<Club>
+            {
+                new Club() { Name = "EA Guingamp", logo="~/images/EA_Guingamp.png", latitude=10, longitude=20},
+                new Club() { Name = "Olympique lyonnais", logo="~/images/Olympique_lyonnais.png", latitude=30, longitude=40},
+                new Club() { Name = "Paris Saint-Germain", logo="~/images/Paris_Saint-Germain.png", latitude=50, longitude=60},
+                new Club() { Name = "Dijon fco", logo="~/images/Dijon_FCO.png", latitude=70, longitude=80},
+                new Club() { Name = "Montpellier HSC", logo="~/images/Montpellier_HSC.png", latitude=90, longitude=100}
+            };
+            clubs.ForEach(club => _clubRepository.Update(club));
+            _clubRepository.SaveChanges();
+        }
+
+        public void AddPlayers()
+        {
+            if (_dbContext.PlayerCollection.Any()) return;
+
+            var players = new List<Player>
+            {
+               new Player() {
+                FirstName = "Sarah",
+                LastName = "Bouhaddi",
+                DateOfBirth = new DateTime(1986, 10, 17)
+                },
+                new Player() {
+                FirstName = "Solène",
+                LastName = "Durand",
+                DateOfBirth = new DateTime(1994, 11, 20)
+                },
+                new Player() {
+                FirstName = "Grace",
+                LastName = "Geyoro",
+                DateOfBirth = new DateTime(1997, 7, 2)
+                }
+            };
+            players.ForEach(player => _playerRepository.Update(player));
+            _playerRepository.SaveChanges();
+        }
+
+        public void AddHistorics()
+        {
+            if (_dbContext.HistoricCollection.Any()) return;
+
+            var historics = new List<Historic>
+            {
+                new Historic()
+                { 
+                    Name = "Sarah Bouhaddi 1",
+                    StartDate = new DateTime(2012,5, 26),
+                    EndDate = new DateTime(2015,5, 26),
+                    HPlayer = _playerRepository.Single("Sarah Bouhaddi"),
+                    HPlayIn = _clubRepository.Single("EA Guingamp")
+                },
+                new Historic()
+                { 
+                    Name = "Sarah Bouhaddi 2",
+                    StartDate = new DateTime(2005,5, 16),
+                    EndDate = new DateTime(2006,8, 16),
+                    HPlayer = _playerRepository.Single("Sarah Bouhaddi"),
+                    HPlayIn = _clubRepository.Single("Olympique lyonnais")
+                },
+                new Historic()
+                { 
+                    Name = "Sarah Bouhaddi 3",
+                    StartDate = new DateTime(2008,11, 3),
+                    EndDate = new DateTime(2011,10, 5),
+                    HPlayer = _playerRepository.Single("Sarah Bouhaddi"),
+                    HPlayIn = _clubRepository.Single("EA Guingamp")
+                }
+            };
+            historics.ForEach(historic => _historicRepository.Update(historic));
+            _historicRepository.SaveChanges();
         }
     }
 }

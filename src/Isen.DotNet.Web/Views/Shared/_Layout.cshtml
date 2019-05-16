@@ -80,6 +80,63 @@
                                    asp-action="Edit">Ajouter...</a>
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle"
+                               data-toggle="dropdown"
+                               href="#" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Club</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"
+                                   asp-area="" 
+                                   asp-controller="Club" 
+                                   asp-action="Index">Toutes</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                   asp-area="" 
+                                   asp-controller="Club" 
+                                   asp-route-id=""
+                                   asp-action="Edit">Ajouter...</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle"
+                               data-toggle="dropdown"
+                               href="#" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Joueuses</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"
+                                   asp-area="" 
+                                   asp-controller="Player" 
+                                   asp-action="Index">Toutes</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                   asp-area="" 
+                                   asp-controller="Player" 
+                                   asp-route-id=""
+                                   asp-action="Edit">Ajouter...</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle"
+                               data-toggle="dropdown"
+                               href="#" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Historique</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"
+                                   asp-area="" 
+                                   asp-controller="Historic" 
+                                   asp-action="Index">Toutes</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                   asp-area="" 
+                                   asp-controller="Historic" 
+                                   asp-route-id=""
+                                   asp-action="Edit">Ajouter...</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -11,6 +11,10 @@ namespace Isen.DotNet.Library.Context
         // Collection des objets du modèle
         public DbSet<City> CityCollection { get; set; }
         public DbSet<Person> PersonCollection { get; set; }
+        public DbSet<Club> ClubCollection { get; set; }
+        public DbSet<Player> PlayerCollection { get; set; }
+        public DbSet<Historic> HistoricCollection { get; set; }
+
 
         // Constructeur avec signature obligatoire
         public ApplicationDbContext(
@@ -33,6 +37,15 @@ namespace Isen.DotNet.Library.Context
                 .WithMany(c => c.PersonCollection)
                 .HasForeignKey(p => p.BornInId)
                 .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Club>()
+                .ToTable(nameof(Club));
+            modelBuilder.Entity<Player>()
+                .ToTable(nameof(Player));
+            modelBuilder.Entity<Historic>()
+                .ToTable(nameof(Historic))
+                .HasOne(h => h.HPlayer)
+                .WithMany(p => p.HistoricCollection)
+                .HasForeignKey(c => c.HPlayerId);
         }
     }
 }
