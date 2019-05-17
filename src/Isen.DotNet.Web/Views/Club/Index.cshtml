@@ -11,6 +11,7 @@
       <tr>
           <th scope="col">Id</th>
           <th scope="col">Nom</th>
+          <th scope="col">Adresse</th>
           <th scope="col">logo</th>
           <th>Action...</th>
       </tr>
@@ -21,9 +22,9 @@
       <tr>
           <th scope="row">@club.Id</th>
           <td>@club.Name</td>
+          <td>@club.address</td>
           <td>
-              @club.logo
-              <img src="@club.logo"><img>
+              <img width="50" height="50" src=@club.logo ><img>
           </td>
           <td>
               <a class="btn btn-outline-primary"

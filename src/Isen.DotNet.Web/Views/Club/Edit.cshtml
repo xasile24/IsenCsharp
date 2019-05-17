@@ -24,6 +24,16 @@
                        value="@Model?.Name" />
             </div>
 
+            <div class="form-group">
+                <label for="clubAddress">Adress du club</label>
+                <input id="clubAddress"
+                       type="text"
+                       class="form-control"
+                       placeholder="Club address"
+                       asp-for="address"
+                       value="@Model?.address" />
+            </div>
+
             <button type="submit" class="btn btn-primary">Valider</button>
             <a class="btn btn-secondary"
                asp-controller="Club" asp-action="Index">Annuler</a>

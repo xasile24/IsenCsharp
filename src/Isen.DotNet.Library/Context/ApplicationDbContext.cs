@@ -9,8 +9,6 @@ namespace Isen.DotNet.Library.Context
     public class ApplicationDbContext : DbContext
     {
         // Collection des objets du modèle
-        public DbSet<City> CityCollection { get; set; }
-        public DbSet<Person> PersonCollection { get; set; }
         public DbSet<Club> ClubCollection { get; set; }
         public DbSet<Player> PlayerCollection { get; set; }
         public DbSet<Historic> HistoricCollection { get; set; }
@@ -29,14 +27,6 @@ namespace Isen.DotNet.Library.Context
             base.OnModelCreating(modelBuilder);
 
             // Préciser les tables et relations du modèle
-            modelBuilder.Entity<City>()
-                .ToTable(nameof(City));
-            modelBuilder.Entity<Person>()
-                .ToTable(nameof(Person))
-                .HasOne(p => p.BornIn)
-                .WithMany(c => c.PersonCollection)
-                .HasForeignKey(p => p.BornInId)
-                .OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<Club>()
                 .ToTable(nameof(Club));
             modelBuilder.Entity<Player>()

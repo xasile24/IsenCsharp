@@ -10,6 +10,7 @@ namespace Isen.DotNet.Library.Models
         public override int Id { get;set; }
         public override string Name { get;set; }
         public string logo { get;set; }
+        public string address { get;set; }
         public float latitude { get;set; }
         public float longitude { get;set; }
         public List<Historic> HistoricCollection { get; set; } =
@@ -35,6 +36,7 @@ namespace Isen.DotNet.Library.Models
             logo = copy.logo;
             latitude = copy.latitude;
             longitude = copy.longitude;
+            address = copy.address;
         }
 
         
@@ -44,6 +46,7 @@ namespace Isen.DotNet.Library.Models
             baseDynamic.logo = logo;
             baseDynamic.latitude = latitude;
             baseDynamic.longitude = longitude;
+            baseDynamic.address = address;
             baseDynamic.nb = HistoricCollection?.Count;
             return baseDynamic;
         }

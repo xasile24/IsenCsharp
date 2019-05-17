@@ -21,8 +21,8 @@ namespace Isen.DotNet.Library.Repositories.Db
         public override IQueryable<Historic> Includes(IQueryable<Historic> includes)
         {
             var inc = base.Includes(includes);
-            inc = inc.Include(e => e.HPlayIn);
-            inc = inc.Include(e => e.HPlayer);
+            inc = inc.Include(e => e.HPlayIn)
+                .Include(e => e.HPlayer);
             return inc;
         }
     }

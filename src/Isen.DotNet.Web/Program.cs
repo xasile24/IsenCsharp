@@ -23,8 +23,6 @@ namespace Isen.DotNet.Web
                 var seed = 
                     scope.ServiceProvider.GetService<SeedData>();
                 seed.DropCreateDatabase();
-                seed.AddCities();
-                seed.AddPersons();
                 seed.AddClubs();
                 seed.AddPlayers();
                 seed.AddHistorics();
