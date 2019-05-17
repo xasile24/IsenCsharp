@@ -25,9 +25,6 @@ namespace Isen.DotNet.Library.Models
         public List<Historic> HistoricCollection { get; set; } =
             new List<Historic>();
 
-        public List<Club> ClubCollection { get; set; } =
-            new List<Club>();
-
         [NotMapped]
         public int? Age 
         { 
@@ -74,7 +71,6 @@ namespace Isen.DotNet.Library.Models
             baseDynamic.birth = DateOfBirth;
             baseDynamic.age = Age;
             baseDynamic.nb = HistoricCollection?.Count;
-            baseDynamic.nb = ClubCollection?.Count;
             return baseDynamic;
         }
 

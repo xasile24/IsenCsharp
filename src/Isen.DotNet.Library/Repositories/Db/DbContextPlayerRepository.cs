@@ -22,7 +22,6 @@ namespace Isen.DotNet.Library.Repositories.Db
         {
             var inc = base.Includes(includes);
             inc = inc.Include(e => e.HistoricCollection);
-            inc = inc.Include(e => e.ClubCollection);
             return inc;
         }
     }

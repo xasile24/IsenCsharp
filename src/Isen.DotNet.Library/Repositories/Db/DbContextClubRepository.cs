@@ -21,7 +21,7 @@ namespace Isen.DotNet.Library.Repositories.Db
         public override IQueryable<Club> Includes(IQueryable<Club> includes)
         {
             var inc = base.Includes(includes);
-            //inc = inc.Include(c => c.PersonCollection);
+            inc = inc.Include(c => c.HistoricCollection);
             return inc;
         }
     }

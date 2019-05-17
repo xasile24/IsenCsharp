@@ -27,7 +27,7 @@
                 <input id="StartDate"
                        type="text"
                        class="form-control"
-                       placeholder="Date de naissance"
+                       placeholder="Date de debut"
                        asp-for="StartDate"
                        value="@startDateString" />
             </div>
@@ -43,27 +43,20 @@
                 <input id="EndDate"
                        type="text"
                        class="form-control"
-                       placeholder="Date de naissance"
+                       placeholder="Date de fin"
                        asp-for="EndDate"
                        value="@endDateString" />
             </div>
 
             <div class="form-group">
-                <label for="HPlayer">Joueuse</label>
+                <label for="HPlayer">Player</label>
                 @Html.DropDownListFor(
-                    // Quel champ du modèle (Person) est concerné
                     p => p.HPlayerId,
-                    // Création d'une liste
                     new SelectList(
-                        // Données de la liste
                         _playerRepository.GetAll(),
-                        // Champ correspondant à l'id
                         "Id",
-                        // Champ correspondant au texte affiché
                         "Name"),
-                    // Item par défaut
                     "Sélectionnez une joueuse...",
-                    // Ckasse CSS
                     new { @class = "form-control" }
                     )
             </div>
@@ -91,7 +84,7 @@
 
             <button type="submit" class="btn btn-primary">Valider</button>
             <a class="btn btn-secondary"
-               asp-controller="Person" asp-action="Index">Annuler</a>
+               asp-controller="Historic" asp-action="Index">Annuler</a>
 
         </form>
 

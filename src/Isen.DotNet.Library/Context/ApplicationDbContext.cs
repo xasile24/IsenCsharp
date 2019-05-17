@@ -35,7 +35,13 @@ namespace Isen.DotNet.Library.Context
                 .ToTable(nameof(Historic))
                 .HasOne(h => h.HPlayer)
                 .WithMany(p => p.HistoricCollection)
-                .HasForeignKey(c => c.HPlayerId);
+                .HasForeignKey(c => c.HPlayerId)
+                .HasConstraintName("ForeignKey_Contract_Player");
+            modelBuilder.Entity<Historic>()
+                .HasOne(h => h.HPlayIn)
+                .WithMany(p => p.HistoricCollection)
+                .HasForeignKey(c => c.HPlayInId)
+                .HasConstraintName("ForeignKey_Contract_Club");
         }
     }
 }

@@ -48,8 +48,13 @@ namespace Isen.DotNet.Library.Models
                 var endDateString = EndDate
                     .GetValueOrDefault(DateTime.MinValue)
                     .ToString("dd/MM/yyyy");
-                //var display = $"{base.Display}|Durée={sDuration}|joueuse={this.HPlayer}|Club={this.HPlayIn}";
-                var display = $"{this.HPlayIn.Name} de {startDateString} à {endDateString}";
+
+                var display = $"noClubFound";
+
+                if (this.HPlayInId != null)
+                {
+                    display = $"{this.HPlayIn.Name} de {startDateString} à {endDateString}";
+                } 
                 return display;
             }
         }

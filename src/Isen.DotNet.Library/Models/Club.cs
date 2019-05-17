@@ -28,7 +28,7 @@ namespace Isen.DotNet.Library.Models
 
         [NotMapped]
         public override string Display =>
-            $"{base.Display} | logo={logo} | latitude={latitude} | longitude={longitude}";
+            $"{base.Display} | logo={logo} | latitude={latitude} | longitude={longitude} | historic={HistoricCollection}";
 
         public override void Map(Club copy)
         {
